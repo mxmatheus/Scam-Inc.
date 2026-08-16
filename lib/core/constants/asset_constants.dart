@@ -5,13 +5,12 @@ abstract class AppAssets {
   static const String logoPrimaryBanner =
       'assets/branding/logo_primary_banner.png';
   static const String logoBadgeEmblem = 'assets/branding/logo_badge_emblem.png';
-  static const String logoDarkBanner = 'assets/branding/logo_dark_banner.png';
-  static const String logoStandaloneIcon =
-      'assets/branding/logo_standalone_icon.png';
+  static const String logoDarkFull = 'assets/branding/logo_dark_full.png';
+  static const String logoMonogramIcon =
+      'assets/branding/logo_monogram_icon.png';
   static const String logoTypographyWordmark =
       'assets/branding/logo_typography_wordmark.png';
-  static const String logoMonochromeStamp =
-      'assets/branding/logo_monochrome_stamp.png';
+  static const String logoBadgesPack = 'assets/branding/logo_badges_pack.png';
   static const String appIconMain = 'assets/branding/app_icon_main.png';
 
   // Core UI Icons (8x8 = 64)
@@ -260,71 +259,71 @@ abstract class AppAssets {
       'assets/icons/achievements/ach_bot_army_automation.png';
 
   // Character Avatars (4x4 = 16)
-  static const String charCeoFounder =
-      'assets/avatars/characters/char_ceo_founder.png';
   static const String charRogueCoder =
       'assets/avatars/characters/char_rogue_coder.png';
-  static const String charPrDirector =
-      'assets/avatars/characters/char_pr_director.png';
-  static const String charShadyLawyer =
-      'assets/avatars/characters/char_shady_lawyer.png';
-  static const String charCryptoBro =
-      'assets/avatars/characters/char_crypto_bro.png';
-  static const String charAiPersona =
-      'assets/avatars/characters/char_ai_persona.png';
-  static const String charTelemarketer =
-      'assets/avatars/characters/char_telemarketer.png';
-  static const String charFakeAuditor =
-      'assets/avatars/characters/char_fake_auditor.png';
-  static const String charCorporateExecutive =
-      'assets/avatars/characters/char_corporate_executive.png';
-  static const String charOffshoreBanker =
-      'assets/avatars/characters/char_offshore_banker.png';
-  static const String charIntern = 'assets/avatars/characters/char_intern.png';
-  static const String charSecurityChief =
-      'assets/avatars/characters/char_security_chief.png';
-  static const String charUndercoverDetective =
-      'assets/avatars/characters/char_undercover_detective.png';
+  static const String charCeoFounder =
+      'assets/avatars/characters/char_ceo_founder.png';
   static const String charOnlineScamBaiter =
       'assets/avatars/characters/char_online_scam_baiter.png';
-  static const String charVictimAvatar =
-      'assets/avatars/characters/char_victim_avatar.png';
+  static const String charAiPersona =
+      'assets/avatars/characters/char_ai_persona.png';
+  static const String charInvestigativeReporter =
+      'assets/avatars/characters/char_investigative_reporter.png';
+  static const String charCryptoBro =
+      'assets/avatars/characters/char_crypto_bro.png';
+  static const String charUndercoverDetective =
+      'assets/avatars/characters/char_undercover_detective.png';
+  static const String charCorporateExecutive =
+      'assets/avatars/characters/char_corporate_executive.png';
   static const String charMysteriousBenefactor =
       'assets/avatars/characters/char_mysterious_benefactor.png';
+  static const String charFakeAuditor =
+      'assets/avatars/characters/char_fake_auditor.png';
+  static const String charPrDirector =
+      'assets/avatars/characters/char_pr_director.png';
+  static const String charRomanceVictim =
+      'assets/avatars/characters/char_romance_victim.png';
+  static const String charHypeMarketer =
+      'assets/avatars/characters/char_hype_marketer.png';
+  static const String charSecurityChief =
+      'assets/avatars/characters/char_security_chief.png';
+  static const String charIntern = 'assets/avatars/characters/char_intern.png';
+  static const String charOffshoreBanker =
+      'assets/avatars/characters/char_offshore_banker.png';
 
   // Chat Avatars (4x4 = 16)
-  static const String chatDeliverySupport =
-      'assets/avatars/chat/chat_delivery_support.png';
-  static const String chatBankSecurity =
-      'assets/avatars/chat/chat_bank_security.png';
-  static const String chatLotteryHost =
-      'assets/avatars/chat/chat_lottery_host.png';
-  static const String chatSocialModerator =
-      'assets/avatars/chat/chat_social_moderator.png';
-  static const String chatDesperatePrince =
-      'assets/avatars/chat/chat_desperate_prince.png';
-  static const String chatCryptoGuru =
-      'assets/avatars/chat/chat_crypto_guru.png';
-  static const String chatTechSupport =
-      'assets/avatars/chat/chat_tech_support.png';
-  static const String chatGovernmentAgent =
-      'assets/avatars/chat/chat_government_agent.png';
-  static const String chatInfluencerManager =
-      'assets/avatars/chat/chat_influencer_manager.png';
-  static const String chatSuspiciousBuyer =
-      'assets/avatars/chat/chat_suspicious_buyer.png';
   static const String chatAnonymousHacker =
       'assets/avatars/chat/chat_anonymous_hacker.png';
+  static const String chatPhishingBaiter =
+      'assets/avatars/chat/chat_phishing_baiter.png';
+  static const String chatStudentVictim =
+      'assets/avatars/chat/chat_student_victim.png';
+  static const String chatElderlyGrandma =
+      'assets/avatars/chat/chat_elderly_grandma.png';
+  static const String chatBankSecurity =
+      'assets/avatars/chat/chat_bank_security.png';
+  static const String chatCryptoGuru =
+      'assets/avatars/chat/chat_crypto_guru.png';
+  static const String chatTechHacker =
+      'assets/avatars/chat/chat_tech_hacker.png';
+  static const String chatInvestmentBroker =
+      'assets/avatars/chat/chat_investment_broker.png';
   static const String chatWorriedUser =
       'assets/avatars/chat/chat_worried_user.png';
-  static const String chatAutomatedBot =
-      'assets/avatars/chat/chat_automated_bot.png';
+  static const String chatLotteryGamer =
+      'assets/avatars/chat/chat_lottery_gamer.png';
+  static const String chatDarkwebContact =
+      'assets/avatars/chat/chat_darkweb_contact.png';
+  static const String chatSocialInfluencer =
+      'assets/avatars/chat/chat_social_influencer.png';
   static const String chatJournalist =
       'assets/avatars/chat/chat_journalist.png';
-  static const String chatTaxOfficer =
-      'assets/avatars/chat/chat_tax_officer.png';
-  static const String chatScamBaiter =
-      'assets/avatars/chat/chat_scam_baiter.png';
+  static const String chatTaxEnforcer =
+      'assets/avatars/chat/chat_tax_enforcer.png';
+  static const String chatTechSupport =
+      'assets/avatars/chat/chat_tech_support.png';
+  static const String chatVerifiedSupport =
+      'assets/avatars/chat/chat_verified_support.png';
 
   // Company Office Evolution (4x2 = 8)
   static const String officeTier1BasementBedroom =

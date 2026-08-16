@@ -88,7 +88,7 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                         ),
                         padding: const EdgeInsets.all(4),
                         child: const ScamIcon(
-                          assetPath: AppAssets.logoStandaloneIcon,
+                          assetPath: AppAssets.logoMonogramIcon,
                           size: 32,
                         ),
                       ),

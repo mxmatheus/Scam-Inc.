@@ -7,10 +7,10 @@
     "names": [
       "primary_banner",
       "badge_emblem",
-      "dark_banner",
-      "standalone_icon",
+      "dark_full",
+      "monogram_icon",
       "typography_wordmark",
-      "monochrome_stamp"
+      "badges_pack"
     ]
   },
   "app_icon.png": {
@@ -204,22 +204,22 @@
     "output": "assets/avatars/characters",
     "prefix": "char_",
     "names": [
-      "ceo_founder",
       "rogue_coder",
-      "pr_director",
-      "shady_lawyer",
-      "crypto_bro",
-      "ai_persona",
-      "telemarketer",
-      "fake_auditor",
-      "corporate_executive",
-      "offshore_banker",
-      "intern",
-      "security_chief",
-      "undercover_detective",
+      "ceo_founder",
       "online_scam_baiter",
-      "victim_avatar",
-      "mysterious_benefactor"
+      "ai_persona",
+      "investigative_reporter",
+      "crypto_bro",
+      "undercover_detective",
+      "corporate_executive",
+      "mysterious_benefactor",
+      "fake_auditor",
+      "pr_director",
+      "romance_victim",
+      "hype_marketer",
+      "security_chief",
+      "intern",
+      "offshore_banker"
     ]
   },
   "chat_avatar_sprite_sheet.png": {
@@ -228,22 +228,22 @@
     "output": "assets/avatars/chat",
     "prefix": "chat_",
     "names": [
-      "delivery_support",
-      "bank_security",
-      "lottery_host",
-      "social_moderator",
-      "desperate_prince",
-      "crypto_guru",
-      "tech_support",
-      "government_agent",
-      "influencer_manager",
-      "suspicious_buyer",
       "anonymous_hacker",
+      "phishing_baiter",
+      "student_victim",
+      "elderly_grandma",
+      "bank_security",
+      "crypto_guru",
+      "tech_hacker",
+      "investment_broker",
       "worried_user",
-      "automated_bot",
+      "lottery_gamer",
+      "darkweb_contact",
+      "social_influencer",
       "journalist",
-      "tax_officer",
-      "scam_baiter"
+      "tax_enforcer",
+      "tech_support",
+      "verified_support"
     ]
   },
   "event_illustration_sprite_sheet.png": {
