@@ -1,13 +1,22 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scam_inc/app/app.dart';
+import 'package:scam_inc/data/storage/local_storage_adapter.dart';
+import 'package:scam_inc/data/providers/repository_providers.dart';
 
 void main() {
   testWidgets('SCAM INC. bootstrap app launches and registers tap', (
     WidgetTester tester,
   ) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const ProviderScope(child: ScamIncApp()));
+    final fakeStorage = InMemoryStorageAdapter();
+
+    // Build our app with injected storage provider
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [localStorageAdapterProvider.overrideWithValue(fakeStorage)],
+        child: const ScamIncApp(),
+      ),
+    );
 
     // Verify initial branding and state
     expect(find.text('SCAM INC.'), findsOneWidget);

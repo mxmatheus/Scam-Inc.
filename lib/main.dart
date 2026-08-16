@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app/app.dart';
+import 'data/storage/local_storage_adapter.dart';
+import 'data/providers/repository_providers.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,5 +24,15 @@ void main() async {
     ),
   );
 
-  runApp(const ProviderScope(child: ScamIncApp()));
+  // Initialize storage adapter
+  final storageAdapter = await SharedPreferencesStorageAdapter.create();
+
+  runApp(
+    ProviderScope(
+      overrides: [
+        localStorageAdapterProvider.overrideWithValue(storageAdapter),
+      ],
+      child: const ScamIncApp(),
+    ),
+  );
 }
