@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/constants/asset_constants.dart';
 import '../core/constants/game_constants.dart';
 import '../core/utils/number_formatter.dart';
@@ -7,6 +8,7 @@ import '../core/widgets/scam_button.dart';
 import '../core/widgets/scam_card.dart';
 import '../core/widgets/scam_icon.dart';
 import '../core/widgets/section_header.dart';
+import '../services/providers/service_providers.dart';
 import 'theme.dart';
 
 class ScamIncApp extends StatelessWidget {
@@ -23,43 +25,25 @@ class ScamIncApp extends StatelessWidget {
   }
 }
 
-class ScamBootstrapScreen extends StatefulWidget {
+class ScamBootstrapScreen extends ConsumerWidget {
   const ScamBootstrapScreen({super.key});
 
   @override
-  State<ScamBootstrapScreen> createState() => _ScamBootstrapScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final playerState = ref.watch(playerStateProvider);
+    final incomePerSec = ref.watch(incomePerSecondProvider);
+    final operations = ref.watch(operationsProvider);
 
-class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
-  double _coins = 0.0;
-  double _incomePerSec = 0.0;
-  double _trust = 10.0;
-  double _heat = 0.0;
-  int _fakeSmsLevel = 0;
+    // Find the first MVP operation: Fake Delivery SMS
+    final smsOperation = operations.isNotEmpty
+        ? operations.firstWhere(
+            (o) => o.id == 'op_fake_delivery_sms',
+            orElse: () => operations.first,
+          )
+        : null;
 
-  void _handleTap() {
-    setState(() {
-      _coins += 1.0;
-    });
-  }
-
-  void _buyFakeSms() {
-    final cost = 10.0 * (1.18 * (_fakeSmsLevel + 1));
-    if (_coins >= cost) {
-      setState(() {
-        _coins -= cost;
-        _fakeSmsLevel += 1;
-        _incomePerSec += 0.5;
-        _heat = (_heat + 2.0).clamp(0.0, 100.0);
-        _trust += 1.0;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final nextCost = 10.0 * (1.18 * (_fakeSmsLevel + 1));
-    final canUpgrade = _coins >= nextCost;
+    final nextCost = smsOperation?.nextUpgradeCost ?? 10.0;
+    final canUpgrade = playerState.coins >= nextCost;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -144,7 +128,7 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      NumberFormatter.formatCurrency(_coins),
+                      NumberFormatter.formatCurrency(playerState.coins),
                       style: Theme.of(context).textTheme.headlineLarge
                           ?.copyWith(
                             fontSize: 36,
@@ -163,7 +147,7 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                         borderRadius: BorderRadius.circular(AppRadius.pill),
                       ),
                       child: Text(
-                        NumberFormatter.formatRate(_incomePerSec),
+                        NumberFormatter.formatRate(incomePerSec),
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: AppColors.sCoinsDark,
                           fontWeight: FontWeight.w700,
@@ -193,7 +177,7 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                                     ?.copyWith(color: AppColors.trustDark),
                               ),
                               Text(
-                                '${_trust.toInt()} PTS',
+                                '${playerState.trust.toInt()} PTS',
                                 style: Theme.of(context).textTheme.labelSmall
                                     ?.copyWith(
                                       fontWeight: FontWeight.w800,
@@ -204,7 +188,7 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                           ),
                           const SizedBox(height: 8),
                           ProgressBar(
-                            progress: _trust / 100.0,
+                            progress: playerState.trust / 100.0,
                             fillColor: AppColors.trust,
                             height: 6,
                           ),
@@ -228,7 +212,7 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                                     ?.copyWith(color: AppColors.heatDark),
                               ),
                               Text(
-                                '${_heat.toInt()}%',
+                                '${playerState.heat.toInt()}%',
                                 style: Theme.of(context).textTheme.labelSmall
                                     ?.copyWith(
                                       fontWeight: FontWeight.w800,
@@ -239,8 +223,8 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                           ),
                           const SizedBox(height: 8),
                           ProgressBar(
-                            progress: _heat / 100.0,
-                            fillColor: _heat > 60
+                            progress: playerState.heat / 100.0,
+                            fillColor: playerState.heat > 60
                                 ? AppColors.heatDanger
                                 : AppColors.heat,
                             height: 6,
@@ -255,7 +239,9 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
 
               // Main Tap Area
               ScamCard(
-                onTap: _handleTap,
+                onTap: () {
+                  ref.read(gameControllerProvider.notifier).tap();
+                },
                 backgroundColor: AppColors.surface,
                 padding: const EdgeInsets.symmetric(vertical: 24.0),
                 child: Center(
@@ -289,7 +275,7 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Tap to generate +\$1.00 S-Coins',
+                        'Tap to generate S-Coins',
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ],
@@ -303,65 +289,72 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                 title: 'Active Operations',
                 subtitle: 'Automated digital schemes',
               ),
-              ScamCard(
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        color: AppColors.surfaceMuted,
-                        borderRadius: BorderRadius.circular(AppRadius.md),
-                        border: Border.all(color: AppColors.border),
+              if (smsOperation != null)
+                ScamCard(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 48,
+                        height: 48,
+                        decoration: BoxDecoration(
+                          color: AppColors.surfaceMuted,
+                          borderRadius: BorderRadius.circular(AppRadius.md),
+                          border: Border.all(color: AppColors.border),
+                        ),
+                        padding: const EdgeInsets.all(6),
+                        child: ScamIcon(
+                          assetPath: smsOperation.iconPath,
+                          size: 32,
+                        ),
                       ),
-                      padding: const EdgeInsets.all(6),
-                      child: const ScamIcon(
-                        assetPath: AppAssets.opFakeDeliverySms,
-                        size: 32,
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              smsOperation.name,
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                            ),
+                            Text(
+                              'Level ${smsOperation.level} • +${NumberFormatter.formatCurrency(smsOperation.currentIncomePerSecond)}/s',
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    fontSize: 12,
+                                    color: AppColors.sCoinsDark,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Fake Delivery SMS',
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                          ),
-                          Text(
-                            'Level $_fakeSmsLevel • +${NumberFormatter.formatCurrency(_fakeSmsLevel * 0.5)}/s',
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(
-                                  fontSize: 12,
-                                  color: AppColors.sCoinsDark,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                          ),
-                        ],
+                      ScamButton(
+                        label: smsOperation.level == 0
+                            ? 'Buy (${NumberFormatter.formatCurrency(nextCost)})'
+                            : 'Upgrade (${NumberFormatter.formatCurrency(nextCost)})',
+                        onPressed: canUpgrade
+                            ? () {
+                                ref
+                                    .read(gameControllerProvider.notifier)
+                                    .buyOperation(smsOperation.id);
+                              }
+                            : null,
+                        variant: canUpgrade
+                            ? ScamButtonVariant.success
+                            : ScamButtonVariant.secondary,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
                       ),
-                    ),
-                    ScamButton(
-                      label: _fakeSmsLevel == 0
-                          ? 'Buy (${NumberFormatter.formatCurrency(nextCost)})'
-                          : 'Upgrade (${NumberFormatter.formatCurrency(nextCost)})',
-                      onPressed: canUpgrade ? _buyFakeSms : null,
-                      variant: canUpgrade
-                          ? ScamButtonVariant.success
-                          : ScamButtonVariant.secondary,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 8,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
             ],
           ),
         ),

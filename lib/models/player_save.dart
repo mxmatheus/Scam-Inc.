@@ -35,14 +35,18 @@ class PlayerSave {
   });
 
   /// Factory to generate a default new-player save file.
-  factory PlayerSave.initial() {
+  factory PlayerSave.initial({
+    List<Operation>? operations,
+    List<Upgrade>? upgrades,
+    List<PrestigeSkill>? prestigeSkills,
+  }) {
     return PlayerSave(
       version: currentVersion,
       savedAt: DateTime.now(),
       playerState: PlayerState.initial(),
-      operations: const [],
-      upgrades: const [],
-      prestigeSkills: const [],
+      operations: operations ?? const [],
+      upgrades: upgrades ?? const [],
+      prestigeSkills: prestigeSkills ?? const [],
       achievements: const [],
       dailyGoals: const [],
       settings: const SettingsState(),
