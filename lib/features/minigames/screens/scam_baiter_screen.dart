@@ -112,13 +112,15 @@ class _ScamBaiterScreenState extends ConsumerState<ScamBaiterScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
               color: _secondsLeft <= 4
-                  ? AppColors.heatBg
-                  : AppColors.surfaceMuted,
+                  ? (isDark ? AppColors.darkHeatBg : AppColors.heatBg)
+                  : (isDark
+                        ? AppColors.darkSurfaceMuted
+                        : AppColors.surfaceMuted),
               borderRadius: BorderRadius.circular(AppRadius.pill),
               border: Border.all(
                 color: _secondsLeft <= 4
                     ? AppColors.heatDanger
-                    : AppColors.border,
+                    : (isDark ? AppColors.darkBorder : AppColors.border),
               ),
             ),
             child: Row(
@@ -128,7 +130,9 @@ class _ScamBaiterScreenState extends ConsumerState<ScamBaiterScreen> {
                   size: 16,
                   color: _secondsLeft <= 4
                       ? AppColors.heatDanger
-                      : AppColors.textSecondary,
+                      : (isDark
+                            ? AppColors.darkTextSecondary
+                            : AppColors.textSecondary),
                 ),
                 const SizedBox(width: 4),
                 Text(
@@ -136,7 +140,9 @@ class _ScamBaiterScreenState extends ConsumerState<ScamBaiterScreen> {
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     color: _secondsLeft <= 4
                         ? AppColors.heatDanger
-                        : AppColors.textPrimary,
+                        : (isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.textPrimary),
                     fontWeight: FontWeight.w800,
                   ),
                 ),
@@ -155,7 +161,7 @@ class _ScamBaiterScreenState extends ConsumerState<ScamBaiterScreen> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AppColors.trustBg,
+                  color: isDark ? AppColors.darkTrustBg : AppColors.trustBg,
                   borderRadius: BorderRadius.circular(AppRadius.md),
                   border: Border.all(color: AppColors.trust),
                 ),
@@ -163,7 +169,7 @@ class _ScamBaiterScreenState extends ConsumerState<ScamBaiterScreen> {
                   children: [
                     const Icon(
                       Icons.security,
-                      color: AppColors.trustDark,
+                      color: AppColors.trust,
                       size: 22,
                     ),
                     const SizedBox(width: 10),
@@ -171,7 +177,9 @@ class _ScamBaiterScreenState extends ConsumerState<ScamBaiterScreen> {
                       child: Text(
                         'PROFILE RADAR: Inspect the contact bio and direct message. Disconnect if malicious!',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: AppColors.trustDark,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.trustDark,
                           fontWeight: FontWeight.w700,
                         ),
                       ),

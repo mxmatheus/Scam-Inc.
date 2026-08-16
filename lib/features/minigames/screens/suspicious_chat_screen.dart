@@ -84,20 +84,27 @@ class _SuspiciousChatScreenState extends ConsumerState<SuspiciousChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: AppColors.surface,
+        backgroundColor: Theme.of(context).cardTheme.color,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
+          icon: Icon(
+            Icons.arrow_back,
+            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Row(
           children: [
             CircleAvatar(
               radius: 18,
-              backgroundColor: AppColors.surfaceMuted,
+              backgroundColor: isDark
+                  ? AppColors.darkSurfaceMuted
+                  : AppColors.surfaceMuted,
               backgroundImage: AssetImage(_scenario.avatarAsset),
             ),
             const SizedBox(width: 10),
@@ -110,6 +117,9 @@ class _SuspiciousChatScreenState extends ConsumerState<SuspiciousChatScreen> {
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
+                      color: isDark
+                          ? AppColors.darkTextPrimary
+                          : AppColors.textPrimary,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -117,7 +127,9 @@ class _SuspiciousChatScreenState extends ConsumerState<SuspiciousChatScreen> {
                   Text(
                     _scenario.contactRole,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.textSecondary,
+                      color: isDark
+                          ? AppColors.darkTextSecondary
+                          : AppColors.textSecondary,
                       fontSize: 11,
                     ),
                   ),
@@ -132,13 +144,15 @@ class _SuspiciousChatScreenState extends ConsumerState<SuspiciousChatScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
               color: _secondsLeft <= 5
-                  ? AppColors.heatBg
-                  : AppColors.surfaceMuted,
+                  ? (isDark ? AppColors.darkHeatBg : AppColors.heatBg)
+                  : (isDark
+                        ? AppColors.darkSurfaceMuted
+                        : AppColors.surfaceMuted),
               borderRadius: BorderRadius.circular(AppRadius.pill),
               border: Border.all(
                 color: _secondsLeft <= 5
                     ? AppColors.heatDanger
-                    : AppColors.border,
+                    : (isDark ? AppColors.darkBorder : AppColors.border),
               ),
             ),
             child: Row(
@@ -148,7 +162,9 @@ class _SuspiciousChatScreenState extends ConsumerState<SuspiciousChatScreen> {
                   size: 16,
                   color: _secondsLeft <= 5
                       ? AppColors.heatDanger
-                      : AppColors.textSecondary,
+                      : (isDark
+                            ? AppColors.darkTextSecondary
+                            : AppColors.textSecondary),
                 ),
                 const SizedBox(width: 4),
                 Text(
@@ -156,7 +172,9 @@ class _SuspiciousChatScreenState extends ConsumerState<SuspiciousChatScreen> {
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     color: _secondsLeft <= 5
                         ? AppColors.heatDanger
-                        : AppColors.textPrimary,
+                        : (isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.textPrimary),
                     fontWeight: FontWeight.w800,
                   ),
                 ),
@@ -178,7 +196,7 @@ class _SuspiciousChatScreenState extends ConsumerState<SuspiciousChatScreen> {
                     margin: const EdgeInsets.only(bottom: 16),
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: AppColors.trustBg,
+                      color: isDark ? AppColors.darkTrustBg : AppColors.trustBg,
                       borderRadius: BorderRadius.circular(AppRadius.md),
                       border: Border.all(color: AppColors.trust),
                     ),
@@ -186,7 +204,7 @@ class _SuspiciousChatScreenState extends ConsumerState<SuspiciousChatScreen> {
                       children: [
                         const Icon(
                           Icons.school_outlined,
-                          color: AppColors.trustDark,
+                          color: AppColors.trust,
                           size: 22,
                         ),
                         const SizedBox(width: 10),
@@ -195,7 +213,9 @@ class _SuspiciousChatScreenState extends ConsumerState<SuspiciousChatScreen> {
                             'ANTI-SCAM TRAINING: Identify suspicious requests & choose the safe response.',
                             style: Theme.of(context).textTheme.bodySmall
                                 ?.copyWith(
-                                  color: AppColors.trustDark,
+                                  color: isDark
+                                      ? AppColors.darkTextPrimary
+                                      : AppColors.trustDark,
                                   fontWeight: FontWeight.w700,
                                 ),
                           ),
@@ -210,7 +230,9 @@ class _SuspiciousChatScreenState extends ConsumerState<SuspiciousChatScreen> {
                     children: [
                       CircleAvatar(
                         radius: 16,
-                        backgroundColor: AppColors.surfaceMuted,
+                        backgroundColor: isDark
+                            ? AppColors.darkSurfaceMuted
+                            : AppColors.surfaceMuted,
                         backgroundImage: AssetImage(_scenario.avatarAsset),
                       ),
                       const SizedBox(width: 8),
@@ -218,20 +240,27 @@ class _SuspiciousChatScreenState extends ConsumerState<SuspiciousChatScreen> {
                         child: Container(
                           padding: const EdgeInsets.all(14.0),
                           decoration: BoxDecoration(
-                            color: AppColors.surface,
+                            color: isDark
+                                ? AppColors.darkSurface
+                                : AppColors.surface,
                             borderRadius: const BorderRadius.only(
                               topRight: Radius.circular(AppRadius.lg),
                               bottomLeft: Radius.circular(AppRadius.lg),
                               bottomRight: Radius.circular(AppRadius.lg),
                             ),
-                            border: Border.all(color: AppColors.border),
-                            boxShadow: AppShadows.card,
+                            border: Border.all(
+                              color: isDark
+                                  ? AppColors.darkBorder
+                                  : AppColors.border,
+                            ),
                           ),
                           child: Text(
                             _scenario.incomingMessage,
                             style: Theme.of(context).textTheme.bodyMedium
                                 ?.copyWith(
-                                  color: AppColors.textPrimary,
+                                  color: isDark
+                                      ? AppColors.darkTextPrimary
+                                      : AppColors.textPrimary,
                                   height: 1.4,
                                 ),
                           ),
@@ -251,8 +280,12 @@ class _SuspiciousChatScreenState extends ConsumerState<SuspiciousChatScreen> {
                             padding: const EdgeInsets.all(14.0),
                             decoration: BoxDecoration(
                               color: _selectedChoice!.isAntiScamWinner
-                                  ? AppColors.sCoinsBg
-                                  : AppColors.heatBg,
+                                  ? (isDark
+                                        ? AppColors.darkSCoinsBg
+                                        : AppColors.sCoinsBg)
+                                  : (isDark
+                                        ? AppColors.darkHeatBg
+                                        : AppColors.heatBg),
                               borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(AppRadius.lg),
                                 bottomLeft: Radius.circular(AppRadius.lg),
@@ -270,8 +303,8 @@ class _SuspiciousChatScreenState extends ConsumerState<SuspiciousChatScreen> {
                                   ?.copyWith(
                                     fontWeight: FontWeight.w600,
                                     color: _selectedChoice!.isAntiScamWinner
-                                        ? AppColors.sCoinsDark
-                                        : AppColors.heatDark,
+                                        ? AppColors.sCoins
+                                        : AppColors.heatDanger,
                                   ),
                             ),
                           ),
@@ -285,8 +318,10 @@ class _SuspiciousChatScreenState extends ConsumerState<SuspiciousChatScreen> {
                     const SizedBox(height: 20),
                     ScamCard(
                       backgroundColor: _selectedChoice!.isAntiScamWinner
-                          ? AppColors.sCoinsBg
-                          : AppColors.heatBg,
+                          ? (isDark
+                                ? AppColors.darkSCoinsBg
+                                : AppColors.sCoinsBg)
+                          : (isDark ? AppColors.darkHeatBg : AppColors.heatBg),
                       borderColor: _selectedChoice!.isAntiScamWinner
                           ? AppColors.sCoins
                           : AppColors.heatDanger,
@@ -300,7 +335,7 @@ class _SuspiciousChatScreenState extends ConsumerState<SuspiciousChatScreen> {
                                 ?.copyWith(
                                   fontWeight: FontWeight.w800,
                                   color: _selectedChoice!.isAntiScamWinner
-                                      ? AppColors.sCoinsDark
+                                      ? AppColors.sCoins
                                       : AppColors.heatDanger,
                                 ),
                           ),
@@ -309,7 +344,9 @@ class _SuspiciousChatScreenState extends ConsumerState<SuspiciousChatScreen> {
                             _scenario.redFlagSummary,
                             style: Theme.of(context).textTheme.bodyMedium
                                 ?.copyWith(
-                                  color: AppColors.textPrimary,
+                                  color: isDark
+                                      ? AppColors.darkTextPrimary
+                                      : AppColors.textPrimary,
                                   height: 1.4,
                                 ),
                           ),
@@ -319,7 +356,7 @@ class _SuspiciousChatScreenState extends ConsumerState<SuspiciousChatScreen> {
                               'Reward: +${NumberFormatter.formatCurrency(_selectedChoice!.rewardCoins)} • +${_selectedChoice!.trustReward.toInt()} Trust',
                               style: Theme.of(context).textTheme.labelSmall
                                   ?.copyWith(
-                                    color: AppColors.sCoinsDark,
+                                    color: AppColors.sCoins,
                                     fontWeight: FontWeight.w800,
                                   ),
                             ),
@@ -327,73 +364,82 @@ class _SuspiciousChatScreenState extends ConsumerState<SuspiciousChatScreen> {
                         ],
                       ),
                     ),
+                    const SizedBox(height: 16),
+                    ScamButton(
+                      label: 'BACK TO OPERATIONS',
+                      onPressed: () => Navigator.of(context).pop(),
+                      variant: ScamButtonVariant.primary,
+                      isFullWidth: true,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
                   ],
                 ],
               ),
             ),
 
-            // Choice Buttons or Exit Action
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              decoration: const BoxDecoration(
-                color: AppColors.surface,
-                border: Border(top: BorderSide(color: AppColors.border)),
-              ),
-              child: _isAnswered
-                  ? ScamButton(
-                      label: 'RETURN TO HEADQUARTERS',
-                      onPressed: () => Navigator.of(context).pop(),
-                      variant: ScamButtonVariant.primary,
-                      isFullWidth: true,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                    )
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                          'SELECT YOUR RESPONSE:',
-                          style: Theme.of(context).textTheme.labelSmall
-                              ?.copyWith(
-                                letterSpacing: 1.0,
-                                fontWeight: FontWeight.w700,
-                              ),
-                        ),
-                        const SizedBox(height: 8),
-                        ..._scenario.choices.map((choice) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: OutlinedButton(
-                              onPressed: () => _handleChoice(choice),
-                              style: OutlinedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 14,
-                                  vertical: 12,
-                                ),
-                                side: const BorderSide(color: AppColors.border),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    AppRadius.md,
-                                  ),
-                                ),
-                                backgroundColor: AppColors.surfaceMuted,
-                              ),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  choice.text,
-                                  style: Theme.of(context).textTheme.bodyMedium
-                                      ?.copyWith(
-                                        color: AppColors.textPrimary,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                ),
+            // Choice Selection Area (Shown when unanswered)
+            if (!_isAnswered)
+              Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).cardTheme.color,
+                  border: Border(
+                    top: BorderSide(
+                      color: isDark ? AppColors.darkBorder : AppColors.border,
+                      width: 1.5,
+                    ),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'SELECT YOUR RESPONSE:',
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        letterSpacing: 0.8,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    ..._scenario.choices.map((choice) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: InkWell(
+                          onTap: () => _handleChoice(choice),
+                          borderRadius: BorderRadius.circular(AppRadius.md),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 14,
+                              vertical: 12,
+                            ),
+                            decoration: BoxDecoration(
+                              color: isDark
+                                  ? AppColors.darkSurfaceMuted
+                                  : AppColors.surfaceMuted,
+                              borderRadius: BorderRadius.circular(AppRadius.md),
+                              border: Border.all(
+                                color: isDark
+                                    ? AppColors.darkBorder
+                                    : AppColors.border,
                               ),
                             ),
-                          );
-                        }),
-                      ],
-                    ),
-            ),
+                            child: Text(
+                              choice.text,
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: isDark
+                                        ? AppColors.darkTextPrimary
+                                        : AppColors.textPrimary,
+                                  ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  ],
+                ),
+              ),
           ],
         ),
       ),

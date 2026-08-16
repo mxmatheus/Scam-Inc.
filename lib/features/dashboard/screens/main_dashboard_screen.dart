@@ -208,12 +208,31 @@ class _HomeTab extends StatelessWidget {
                   ),
                 ],
               ),
-              IconButton(
-                icon: const ScamIcon(
-                  assetPath: AppAssets.coreSettingsGearCog,
-                  size: 20,
-                ),
-                onPressed: onOpenSettings,
+              Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.emoji_events_rounded,
+                      color: AppColors.corporateGold,
+                      size: 24,
+                    ),
+                    tooltip: 'Dossier & Milestones',
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const AchievementsScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  IconButton(
+                    icon: const ScamIcon(
+                      assetPath: AppAssets.coreSettingsGearCog,
+                      size: 20,
+                    ),
+                    onPressed: onOpenSettings,
+                  ),
+                ],
               ),
             ],
           ),
