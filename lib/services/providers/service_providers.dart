@@ -12,6 +12,9 @@ import '../trust_service.dart';
 import '../offline_income_service.dart';
 import '../event_service.dart';
 import '../prestige_service.dart';
+import '../achievement_service.dart';
+import '../daily_goal_service.dart';
+import '../audio_service.dart';
 import '../../features/minigames/services/chat_minigame_service.dart';
 import '../../features/minigames/services/scam_baiter_service.dart';
 import '../../game/game_controller.dart';
@@ -47,6 +50,16 @@ final prestigeServiceProvider = Provider<PrestigeService>((ref) {
   return const PrestigeService();
 });
 
+/// Provider for [AchievementService].
+final achievementServiceProvider = Provider<AchievementService>((ref) {
+  return const AchievementService();
+});
+
+/// Provider for [DailyGoalService].
+final dailyGoalServiceProvider = Provider<DailyGoalService>((ref) {
+  return const DailyGoalService();
+});
+
 /// Provider for [ChatMinigameService].
 final chatMinigameServiceProvider = Provider<ChatMinigameService>((ref) {
   return ChatMinigameService();
@@ -55,6 +68,11 @@ final chatMinigameServiceProvider = Provider<ChatMinigameService>((ref) {
 /// Provider for [ScamBaiterService].
 final scamBaiterServiceProvider = Provider<ScamBaiterService>((ref) {
   return ScamBaiterService();
+});
+
+/// Provider for [AudioService].
+final audioServiceProvider = Provider<AudioService>((ref) {
+  return AudioService(() => ref.read(settingsStateProvider));
 });
 
 /// Provider for singleton [GameClockService].
@@ -76,6 +94,9 @@ final gameControllerProvider =
       final offlineIncomeService = ref.watch(offlineIncomeServiceProvider);
       final eventService = ref.watch(eventServiceProvider);
       final prestigeService = ref.watch(prestigeServiceProvider);
+      final achievementService = ref.watch(achievementServiceProvider);
+      final dailyGoalService = ref.watch(dailyGoalServiceProvider);
+      final audioService = ref.watch(audioServiceProvider);
       final gameClock = ref.watch(gameClockServiceProvider);
 
       return GameController(
@@ -86,6 +107,9 @@ final gameControllerProvider =
         offlineIncomeService: offlineIncomeService,
         eventService: eventService,
         prestigeService: prestigeService,
+        achievementService: achievementService,
+        dailyGoalService: dailyGoalService,
+        audioService: audioService,
         gameClock: gameClock,
       );
     });

@@ -7,6 +7,10 @@ import 'package:scam_inc/services/trust_service.dart';
 import 'package:scam_inc/services/offline_income_service.dart';
 import 'package:scam_inc/services/event_service.dart';
 import 'package:scam_inc/services/prestige_service.dart';
+import 'package:scam_inc/models/settings_state.dart';
+import 'package:scam_inc/services/achievement_service.dart';
+import 'package:scam_inc/services/daily_goal_service.dart';
+import 'package:scam_inc/services/audio_service.dart';
 import 'package:scam_inc/services/game_clock_service.dart';
 import 'package:scam_inc/game/game_controller.dart';
 
@@ -22,6 +26,9 @@ void main() {
     late OfflineIncomeService offlineIncomeService;
     late EventService eventService;
     late PrestigeService prestigeService;
+    late AchievementService achievementService;
+    late DailyGoalService dailyGoalService;
+    late AudioService audioService;
     late GameClockService gameClock;
     late GameController controller;
 
@@ -34,6 +41,9 @@ void main() {
       offlineIncomeService = const OfflineIncomeService();
       eventService = const EventService();
       prestigeService = const PrestigeService();
+      achievementService = const AchievementService();
+      dailyGoalService = const DailyGoalService();
+      audioService = AudioService(() => const SettingsState());
       gameClock = GameClockService();
 
       controller = GameController(
@@ -44,6 +54,9 @@ void main() {
         offlineIncomeService: offlineIncomeService,
         eventService: eventService,
         prestigeService: prestigeService,
+        achievementService: achievementService,
+        dailyGoalService: dailyGoalService,
+        audioService: audioService,
         gameClock: gameClock,
       );
     });

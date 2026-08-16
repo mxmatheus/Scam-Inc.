@@ -12,11 +12,13 @@ import '../../../core/widgets/section_header.dart';
 import '../../../core/widgets/operation_card.dart';
 import '../../../core/widgets/offline_summary_dialog.dart';
 import '../../../core/widgets/event_decision_modal.dart';
+import '../../../core/widgets/reset_save_confirm_dialog.dart';
 import '../../../data/providers/repository_providers.dart';
 import '../../../services/providers/service_providers.dart';
 import '../../../services/heat_service.dart';
 import '../../operations/screens/operations_screen.dart';
 import '../../prestige/screens/prestige_screen.dart';
+import '../../achievements/screens/achievements_screen.dart';
 import '../../minigames/screens/suspicious_chat_screen.dart';
 import '../../minigames/screens/scam_baiter_screen.dart';
 
@@ -772,10 +774,29 @@ class _EventsTab extends ConsumerWidget {
 }
 
 // ==========================================
-// TAB 4: SETTINGS & STATS (WITH DARK MODE TOGGLE)
+// TAB 4: SETTINGS & STATS
 // ==========================================
 class _SettingsTab extends ConsumerWidget {
   const _SettingsTab();
+
+  void _showResetConfirmDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (ctx) => ResetSaveConfirmDialog(
+        onConfirmReset: () {
+          ref.read(gameControllerProvider.notifier).resetGame();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                '💾 Evidence shredded! Save file reset back to Day 1.',
+              ),
+              backgroundColor: AppColors.heatDanger,
+            ),
+          );
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -795,7 +816,64 @@ class _SettingsTab extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
 
-          // Appearance & Preferences
+          // Milestones & Achievements Hub Card
+          ScamCard(
+            borderColor: AppColors.corporateGold,
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppColors.sCoinsBg,
+                    borderRadius: BorderRadius.circular(AppRadius.md),
+                  ),
+                  child: const ScamIcon(
+                    assetPath: AppAssets.achUntouchableKingpinCrown,
+                    size: 28,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'DOSSIER & MILESTONES',
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 1.0,
+                          color: AppColors.corporateGold,
+                        ),
+                      ),
+                      Text(
+                        'View company achievements and claim daily goal rewards.',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ],
+                  ),
+                ),
+                ScamButton(
+                  label: 'VIEW',
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const AchievementsScreen(),
+                      ),
+                    );
+                  },
+                  variant: ScamButtonVariant.primary,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 8,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Appearance & Controls Card
           ScamCard(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -831,7 +909,7 @@ class _SettingsTab extends ConsumerWidget {
                     ),
                     Switch(
                       value: settings.isDarkMode,
-                      activeColor: AppColors.sCoins,
+                      activeTrackColor: AppColors.sCoins,
                       onChanged: (val) {
                         ref
                             .read(settingsControllerProvider.notifier)
@@ -861,11 +939,41 @@ class _SettingsTab extends ConsumerWidget {
                     ),
                     Switch(
                       value: settings.soundEnabled,
-                      activeColor: AppColors.trust,
+                      activeTrackColor: AppColors.trust,
                       onChanged: (val) {
                         ref
                             .read(settingsControllerProvider.notifier)
                             .toggleSound(val);
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.vibration,
+                          size: 20,
+                          color: AppColors.heat,
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          'Haptic Feedback',
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ),
+                    Switch(
+                      value: settings.hapticsEnabled,
+                      activeTrackColor: AppColors.heat,
+                      onChanged: (val) {
+                        ref
+                            .read(settingsControllerProvider.notifier)
+                            .toggleHaptics(val);
                       },
                     ),
                   ],
@@ -936,13 +1044,36 @@ class _SettingsTab extends ConsumerWidget {
                 const SizedBox(height: 12),
                 ScamButton(
                   label: 'WIPE SAVE FILE',
-                  onPressed: () {
-                    ref.read(gameControllerProvider.notifier).resetGame();
-                  },
+                  onPressed: () => _showResetConfirmDialog(context, ref),
                   variant: ScamButtonVariant.danger,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 14,
                     vertical: 8,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+
+          // Satire Disclaimer & Version Info
+          Center(
+            child: Column(
+              children: [
+                Text(
+                  'SCAM INC. v1.0.0 (Satirical Cyber Education)',
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    color: AppColors.textSecondary,
+                    fontSize: 11,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  'All organizations, schemes, and characters are purely fictional parodies.',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: AppColors.textMuted,
+                    fontSize: 10,
                   ),
                 ),
               ],
@@ -960,9 +1091,10 @@ class _SettingsTab extends ConsumerWidget {
         Text(label, style: Theme.of(context).textTheme.bodyMedium),
         Text(
           value,
-          style: Theme.of(
-            context,
-          ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w800),
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w800,
+            color: AppColors.textPrimary,
+          ),
         ),
       ],
     );

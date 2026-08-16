@@ -14,6 +14,9 @@ import '../services/trust_service.dart';
 import '../services/offline_income_service.dart';
 import '../services/event_service.dart';
 import '../services/prestige_service.dart';
+import '../services/achievement_service.dart';
+import '../services/daily_goal_service.dart';
+import '../services/audio_service.dart';
 import '../services/game_clock_service.dart';
 
 /// Central Game State Controller managing active progression, tick events, and persistence.
@@ -25,6 +28,9 @@ class GameController extends StateNotifier<PlayerSave> {
   final OfflineIncomeService _offlineIncomeService;
   final EventService _eventService;
   final PrestigeService _prestigeService;
+  final AchievementService _achievementService;
+  final DailyGoalService _dailyGoalService;
+  final AudioService _audioService;
   final GameClockService _gameClock;
   Timer? _autoSaveTimer;
 
@@ -42,6 +48,9 @@ class GameController extends StateNotifier<PlayerSave> {
     required OfflineIncomeService offlineIncomeService,
     required EventService eventService,
     required PrestigeService prestigeService,
+    required AchievementService achievementService,
+    required DailyGoalService dailyGoalService,
+    required AudioService audioService,
     required GameClockService gameClock,
     PlayerSave? initialSave,
   }) : _saveRepository = saveRepository,
@@ -51,6 +60,9 @@ class GameController extends StateNotifier<PlayerSave> {
        _offlineIncomeService = offlineIncomeService,
        _eventService = eventService,
        _prestigeService = prestigeService,
+       _achievementService = achievementService,
+       _dailyGoalService = dailyGoalService,
+       _audioService = audioService,
        _gameClock = gameClock,
        super(
          initialSave ??
@@ -58,6 +70,8 @@ class GameController extends StateNotifier<PlayerSave> {
                operations: GameSeeds.getInitialOperations(),
                upgrades: GameSeeds.getInitialUpgrades(),
                prestigeSkills: GameSeeds.getInitialPrestigeSkills(),
+               achievements: achievementService.getInitialAchievements(),
+               dailyGoals: dailyGoalService.getInitialGoals(),
              ),
        ) {
     _init();
@@ -75,6 +89,8 @@ class GameController extends StateNotifier<PlayerSave> {
           operations: GameSeeds.getInitialOperations(),
           upgrades: GameSeeds.getInitialUpgrades(),
           prestigeSkills: GameSeeds.getInitialPrestigeSkills(),
+          achievements: _achievementService.getInitialAchievements(),
+          dailyGoals: _dailyGoalService.getInitialGoals(),
         );
       }
     }
@@ -109,6 +125,7 @@ class GameController extends StateNotifier<PlayerSave> {
       return;
     }
 
+    _audioService.playPurchase();
     final result = _pendingOfflineEarnings!;
     final updatedPlayerState = state.playerState.copyWith(
       coins: state.playerState.coins + result.earnedCoins,
@@ -127,6 +144,7 @@ class GameController extends StateNotifier<PlayerSave> {
 
   /// Handles manual user screen tap action.
   void tap() {
+    _audioService.playTap();
     final tapValue = _economyService.calculateTapIncome(
       playerState: state.playerState,
       operations: state.operations,
@@ -156,6 +174,7 @@ class GameController extends StateNotifier<PlayerSave> {
       return false;
     }
 
+    _audioService.playUpgrade();
     final updatedOp = op.copyWith(level: op.level + count, isUnlocked: true);
 
     final updatedOperations = List<Operation>.from(state.operations);
@@ -186,6 +205,7 @@ class GameController extends StateNotifier<PlayerSave> {
       return false;
     }
 
+    _audioService.playPurchase();
     final updatedUpgrade = upgrade.copyWith(isPurchased: true);
     final updatedUpgrades = List<Upgrade>.from(state.upgrades);
     updatedUpgrades[upIndex] = updatedUpgrade;
@@ -214,6 +234,7 @@ class GameController extends StateNotifier<PlayerSave> {
     final cost = skill.calculateCost();
     if (state.playerState.launderedCash < cost) return false;
 
+    _audioService.playUpgrade();
     final updatedSkill = skill.copyWith(level: skill.level + 1);
     final updatedSkills = List<PrestigeSkill>.from(state.prestigeSkills);
     updatedSkills[skillIndex] = updatedSkill;
@@ -250,6 +271,7 @@ class GameController extends StateNotifier<PlayerSave> {
       return false;
     }
 
+    _audioService.playBribe();
     final delta = _heatService.calculateHeatCooldownDelta();
     final updatedHeat = _heatService.clampHeat(currentHeat + delta);
 
@@ -270,6 +292,7 @@ class GameController extends StateNotifier<PlayerSave> {
     );
     if (!eval.isEligible) return false;
 
+    _audioService.playPrestige();
     final updatedPlayerState = state.playerState.copyWith(
       coins: 0.0,
       heat: 0.0,
@@ -280,7 +303,6 @@ class GameController extends StateNotifier<PlayerSave> {
       lastActiveTimestamp: DateTime.now(),
     );
 
-    // Reset operations and upgrades back to baseline seeds
     final resetOperations = GameSeeds.getInitialOperations();
     final resetUpgrades = GameSeeds.getInitialUpgrades();
 
@@ -296,6 +318,7 @@ class GameController extends StateNotifier<PlayerSave> {
 
   /// Manually triggers or sets an active random narrative event.
   GameEvent triggerRandomEvent() {
+    _audioService.playWarning();
     final event = _eventService.getRandomEvent();
     _activeEvent = event;
     return event;
@@ -304,6 +327,12 @@ class GameController extends StateNotifier<PlayerSave> {
   /// Resolves an event choice and applies economic/heat/trust consequences.
   EventResolutionResult applyEventChoice(GameEvent event, EventChoice choice) {
     final result = _eventService.resolveChoice(event: event, choice: choice);
+
+    if (result.isSuccess) {
+      _audioService.playPurchase();
+    } else {
+      _audioService.playWarning();
+    }
 
     final updatedCoins = (state.playerState.coins + result.coinsDelta).clamp(
       0.0,
@@ -334,6 +363,12 @@ class GameController extends StateNotifier<PlayerSave> {
     required double trust,
     required double heatDelta,
   }) {
+    if (coins > 0) {
+      _audioService.playAchievement();
+    } else {
+      _audioService.playWarning();
+    }
+
     final updatedCoins = state.playerState.coins + coins;
     final updatedTrust = _trustService.clampTrust(
       state.playerState.trust + trust,
@@ -404,9 +439,22 @@ class GameController extends StateNotifier<PlayerSave> {
       lastActiveTimestamp: DateTime.now(),
     );
 
+    // Evaluate achievements and daily goals
+    final updatedAchievements = _achievementService.evaluateAchievements(
+      currentAchievements: state.achievements,
+      playerSave: state,
+    );
+
+    final updatedDailyGoals = _dailyGoalService.evaluateDailyGoals(
+      currentGoals: state.dailyGoals,
+      playerSave: state,
+    );
+
     state = state.copyWith(
       playerState: updatedPlayerState,
       operations: operationsList,
+      achievements: updatedAchievements,
+      dailyGoals: updatedDailyGoals,
       savedAt: DateTime.now(),
     );
   }
@@ -423,6 +471,8 @@ class GameController extends StateNotifier<PlayerSave> {
       operations: GameSeeds.getInitialOperations(),
       upgrades: GameSeeds.getInitialUpgrades(),
       prestigeSkills: GameSeeds.getInitialPrestigeSkills(),
+      achievements: _achievementService.getInitialAchievements(),
+      dailyGoals: _dailyGoalService.getInitialGoals(),
     );
   }
 

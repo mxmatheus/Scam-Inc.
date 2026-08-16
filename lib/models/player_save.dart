@@ -39,6 +39,9 @@ class PlayerSave {
     List<Operation>? operations,
     List<Upgrade>? upgrades,
     List<PrestigeSkill>? prestigeSkills,
+    List<Achievement>? achievements,
+    List<DailyGoal>? dailyGoals,
+    SettingsState? settings,
   }) {
     return PlayerSave(
       version: currentVersion,
@@ -47,9 +50,9 @@ class PlayerSave {
       operations: operations ?? const [],
       upgrades: upgrades ?? const [],
       prestigeSkills: prestigeSkills ?? const [],
-      achievements: const [],
-      dailyGoals: const [],
-      settings: const SettingsState(),
+      achievements: achievements ?? const [],
+      dailyGoals: dailyGoals ?? const [],
+      settings: settings ?? const SettingsState(),
     );
   }
 
