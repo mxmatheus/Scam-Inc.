@@ -1,83 +1,144 @@
 /// SCAM INC. — Typed Asset Constants
-/// All asset references are centralized here to prevent hard-coded string errors.
+/// All asset references are centralized here with 100% exact visual naming.
 abstract class AppAssets {
-  // Branding
-  static const String logoPrimary = 'assets/branding/logo_primary.png';
-  static const String logoBadge = 'assets/branding/logo_badge.png';
-  static const String logoDark = 'assets/branding/logo_dark.png';
-  static const String logoIcon = 'assets/branding/logo_icon.png';
-  static const String logoText = 'assets/branding/logo_text.png';
-  static const String logoMonochrome = 'assets/branding/logo_monochrome.png';
+  // Branding (6 + 1 = 7)
+  static const String logoPrimaryBanner =
+      'assets/branding/logo_primary_banner.png';
+  static const String logoBadgeEmblem = 'assets/branding/logo_badge_emblem.png';
+  static const String logoDarkBanner = 'assets/branding/logo_dark_banner.png';
+  static const String logoStandaloneIcon =
+      'assets/branding/logo_standalone_icon.png';
+  static const String logoTypographyWordmark =
+      'assets/branding/logo_typography_wordmark.png';
+  static const String logoMonochromeStamp =
+      'assets/branding/logo_monochrome_stamp.png';
   static const String appIconMain = 'assets/branding/app_icon_main.png';
 
   // Core UI Icons (8x8 = 64)
-  static const String coreMoney = 'assets/icons/core/core_money.png';
-  static const String coreIncome = 'assets/icons/core/core_income.png';
-  static const String coreTrust = 'assets/icons/core/core_trust.png';
-  static const String coreHeat = 'assets/icons/core/core_heat.png';
-  static const String coreDiamond = 'assets/icons/core/core_diamond.png';
-  static const String coreTrophy = 'assets/icons/core/core_trophy.png';
-  static const String coreGear = 'assets/icons/core/core_gear.png';
-  static const String coreStar = 'assets/icons/core/core_star.png';
-  static const String coreTap = 'assets/icons/core/core_tap.png';
-  static const String coreUpgrade = 'assets/icons/core/core_upgrade.png';
-  static const String coreLock = 'assets/icons/core/core_lock.png';
-  static const String coreUnlock = 'assets/icons/core/core_unlock.png';
-  static const String coreCheck = 'assets/icons/core/core_check.png';
-  static const String coreCross = 'assets/icons/core/core_cross.png';
-  static const String coreInfo = 'assets/icons/core/core_info.png';
-  static const String coreAlert = 'assets/icons/core/core_alert.png';
-  static const String coreRefresh = 'assets/icons/core/core_refresh.png';
-  static const String corePlay = 'assets/icons/core/core_play.png';
-  static const String corePause = 'assets/icons/core/core_pause.png';
-  static const String coreFastForward =
-      'assets/icons/core/core_fast_forward.png';
-  static const String coreVolumeOn = 'assets/icons/core/core_volume_on.png';
-  static const String coreVolumeOff = 'assets/icons/core/core_volume_off.png';
-  static const String coreMusicOn = 'assets/icons/core/core_music_on.png';
-  static const String coreMusicOff = 'assets/icons/core/core_music_off.png';
-  static const String coreHome = 'assets/icons/core/core_home.png';
-  static const String coreOperations = 'assets/icons/core/core_operations.png';
-  static const String coreNetwork = 'assets/icons/core/core_network.png';
-  static const String coreEvents = 'assets/icons/core/core_events.png';
-  static const String corePrestige = 'assets/icons/core/core_prestige.png';
-  static const String coreSettings = 'assets/icons/core/core_settings.png';
-  static const String coreShop = 'assets/icons/core/core_shop.png';
-  static const String coreAchievements =
-      'assets/icons/core/core_achievements.png';
-  static const String coreArrowUp = 'assets/icons/core/core_arrow_up.png';
-  static const String coreArrowDown = 'assets/icons/core/core_arrow_down.png';
-  static const String coreArrowLeft = 'assets/icons/core/core_arrow_left.png';
-  static const String coreArrowRight = 'assets/icons/core/core_arrow_right.png';
-  static const String corePlus = 'assets/icons/core/core_plus.png';
-  static const String coreMinus = 'assets/icons/core/core_minus.png';
-  static const String coreEdit = 'assets/icons/core/core_edit.png';
-  static const String coreTrash = 'assets/icons/core/core_trash.png';
-  static const String coreClock = 'assets/icons/core/core_clock.png';
-  static const String coreCalendar = 'assets/icons/core/core_calendar.png';
-  static const String coreFire = 'assets/icons/core/core_fire.png';
-  static const String coreShield = 'assets/icons/core/core_shield.png';
-  static const String coreTarget = 'assets/icons/core/core_target.png';
-  static const String coreLightbulb = 'assets/icons/core/core_lightbulb.png';
-  static const String coreChart = 'assets/icons/core/core_chart.png';
-  static const String coreBank = 'assets/icons/core/core_bank.png';
-  static const String coreEmail = 'assets/icons/core/core_email.png';
-  static const String coreMessage = 'assets/icons/core/core_message.png';
-  static const String corePhone = 'assets/icons/core/core_phone.png';
-  static const String coreGlobe = 'assets/icons/core/core_globe.png';
-  static const String coreWifi = 'assets/icons/core/core_wifi.png';
-  static const String coreSignal = 'assets/icons/core/core_signal.png';
-  static const String coreBattery = 'assets/icons/core/core_battery.png';
-  static const String coreNotification =
-      'assets/icons/core/core_notification.png';
-  static const String coreSafe = 'assets/icons/core/core_safe.png';
-  static const String coreKey = 'assets/icons/core/core_key.png';
-  static const String coreBriefcase = 'assets/icons/core/core_briefcase.png';
-  static const String coreDocument = 'assets/icons/core/core_document.png';
-  static const String coreUser = 'assets/icons/core/core_user.png';
-  static const String coreUsers = 'assets/icons/core/core_users.png';
-  static const String coreCrown = 'assets/icons/core/core_crown.png';
-  static const String coreGift = 'assets/icons/core/core_gift.png';
+  static const String coreNewspaperPress =
+      'assets/icons/core/core_newspaper_press.png';
+  static const String coreTargetCriminal =
+      'assets/icons/core/core_target_criminal.png';
+  static const String coreBrokenLink = 'assets/icons/core/core_broken_link.png';
+  static const String coreUserAvatar = 'assets/icons/core/core_user_avatar.png';
+  static const String coreFakeVerifiedMask =
+      'assets/icons/core/core_fake_verified_mask.png';
+  static const String coreHyperlinkChain =
+      'assets/icons/core/core_hyperlink_chain.png';
+  static const String coreLuxuryYacht =
+      'assets/icons/core/core_luxury_yacht.png';
+  static const String coreMinusCircleBlock =
+      'assets/icons/core/core_minus_circle_block.png';
+  static const String corePlayButtonCircle =
+      'assets/icons/core/core_play_button_circle.png';
+  static const String coreGiftBoxReward =
+      'assets/icons/core/core_gift_box_reward.png';
+  static const String coreCashBriefcase =
+      'assets/icons/core/core_cash_briefcase.png';
+  static const String coreDetectiveMagnifier =
+      'assets/icons/core/core_detective_magnifier.png';
+  static const String coreCalendarStar =
+      'assets/icons/core/core_calendar_star.png';
+  static const String coreSwatPoliceRaid =
+      'assets/icons/core/core_swat_police_raid.png';
+  static const String coreLoudspeakerAudio =
+      'assets/icons/core/core_loudspeaker_audio.png';
+  static const String coreMoneyLaunderingWasher =
+      'assets/icons/core/core_money_laundering_washer.png';
+  static const String corePauseButtonCircle =
+      'assets/icons/core/core_pause_button_circle.png';
+  static const String coreAnalyticsPieGear =
+      'assets/icons/core/core_analytics_pie_gear.png';
+  static const String coreVaultSafeDoor =
+      'assets/icons/core/core_vault_safe_door.png';
+  static const String coreSocialMediaNetwork =
+      'assets/icons/core/core_social_media_network.png';
+  static const String corePcWorkstation =
+      'assets/icons/core/core_pc_workstation.png';
+  static const String coreWallClockTimer =
+      'assets/icons/core/core_wall_clock_timer.png';
+  static const String coreGrowthTreeArrow =
+      'assets/icons/core/core_growth_tree_arrow.png';
+  static const String coreNotificationBell =
+      'assets/icons/core/core_notification_bell.png';
+  static const String coreCheckCircleConfirmed =
+      'assets/icons/core/core_check_circle_confirmed.png';
+  static const String coreHeatFireAlarm =
+      'assets/icons/core/core_heat_fire_alarm.png';
+  static const String coreAiBotHead = 'assets/icons/core/core_ai_bot_head.png';
+  static const String coreIncomeCoinStackUp =
+      'assets/icons/core/core_income_coin_stack_up.png';
+  static const String coreSecurityShieldCheck =
+      'assets/icons/core/core_security_shield_check.png';
+  static const String coreRefreshSyncLoop =
+      'assets/icons/core/core_refresh_sync_loop.png';
+  static const String coreOffshorePalmIsland =
+      'assets/icons/core/core_offshore_palm_island.png';
+  static const String coreRaidSkullSiren =
+      'assets/icons/core/core_raid_skull_siren.png';
+  static const String coreChampionshipTrophy =
+      'assets/icons/core/core_championship_trophy.png';
+  static const String coreBarChartGrowth =
+      'assets/icons/core/core_bar_chart_growth.png';
+  static const String coreCashStackBundle =
+      'assets/icons/core/core_cash_stack_bundle.png';
+  static const String coreAlertBellExclamation =
+      'assets/icons/core/core_alert_bell_exclamation.png';
+  static const String coreChatSpeechBubble =
+      'assets/icons/core/core_chat_speech_bubble.png';
+  static const String coreInfluencerSelfiePhone =
+      'assets/icons/core/core_influencer_selfie_phone.png';
+  static const String coreArrowUpCircleUpgrade =
+      'assets/icons/core/core_arrow_up_circle_upgrade.png';
+  static const String coreNeuralNetworkBrain =
+      'assets/icons/core/core_neural_network_brain.png';
+  static const String coreServerRackDatacenter =
+      'assets/icons/core/core_server_rack_datacenter.png';
+  static const String coreGoldenStar = 'assets/icons/core/core_golden_star.png';
+  static const String coreExecutiveOfficeHq =
+      'assets/icons/core/core_executive_office_hq.png';
+  static const String coreSettingsGearCog =
+      'assets/icons/core/core_settings_gear_cog.png';
+  static const String coreInvestmentSproutCoins =
+      'assets/icons/core/core_investment_sprout_coins.png';
+  static const String coreCorporateTowersSkyline =
+      'assets/icons/core/core_corporate_towers_skyline.png';
+  static const String coreArrowDownCircle =
+      'assets/icons/core/core_arrow_down_circle.png';
+  static const String coreMarketTrendExponential =
+      'assets/icons/core/core_market_trend_exponential.png';
+  static const String coreIdleOfflineCash =
+      'assets/icons/core/core_idle_offline_cash.png';
+  static const String coreVideoStudioCamera =
+      'assets/icons/core/core_video_studio_camera.png';
+  static const String corePlusCircleAdd =
+      'assets/icons/core/core_plus_circle_add.png';
+  static const String corePadlockLocked =
+      'assets/icons/core/core_padlock_locked.png';
+  static const String corePadlockUnlocked =
+      'assets/icons/core/core_padlock_unlocked.png';
+  static const String coreRoyalCrownCushion =
+      'assets/icons/core/core_royal_crown_cushion.png';
+  static const String coreRoboticArmAutomation =
+      'assets/icons/core/core_robotic_arm_automation.png';
+  static const String coreMoneyFaucetTap =
+      'assets/icons/core/core_money_faucet_tap.png';
+  static const String coreHandshakeTrustDeal =
+      'assets/icons/core/core_handshake_trust_deal.png';
+  static const String coreCctvSecurityCamera =
+      'assets/icons/core/core_cctv_security_camera.png';
+  static const String coreWarningCautionTriangle =
+      'assets/icons/core/core_warning_caution_triangle.png';
+  static const String coreHelpQuestionCircle =
+      'assets/icons/core/core_help_question_circle.png';
+  static const String coreInfoDetailsCircle =
+      'assets/icons/core/core_info_details_circle.png';
+  static const String coreEmailLetterEnvelope =
+      'assets/icons/core/core_email_letter_envelope.png';
+  static const String coreSmartphoneMobile =
+      'assets/icons/core/core_smartphone_mobile.png';
+  static const String coreCancelCrossCircle =
+      'assets/icons/core/core_cancel_cross_circle.png';
 
   // Resource Icons (4x2 = 8)
   static const String resSCoins = 'assets/icons/resources/res_s_coins.png';
@@ -87,111 +148,116 @@ abstract class AppAssets {
       'assets/icons/resources/res_heat_meter.png';
   static const String resLaunderedCash =
       'assets/icons/resources/res_laundered_cash.png';
-  static const String resGems = 'assets/icons/resources/res_gems.png';
-  static const String resInfluence = 'assets/icons/resources/res_influence.png';
-  static const String resRetainerShield =
-      'assets/icons/resources/res_retainer_shield.png';
-  static const String resOffshorePassport =
-      'assets/icons/resources/res_offshore_passport.png';
+  static const String resIncomeGrowthBriefcase =
+      'assets/icons/resources/res_income_growth_briefcase.png';
+  static const String resHeatGaugeSpeedometer =
+      'assets/icons/resources/res_heat_gauge_speedometer.png';
+  static const String resInfluencePrestigeStar =
+      'assets/icons/resources/res_influence_prestige_star.png';
+  static const String resOffshoreVipCrown =
+      'assets/icons/resources/res_offshore_vip_crown.png';
 
   // Operation Icons (4x4 = 16)
-  static const String opFakeDeliverySms =
-      'assets/icons/operations/op_fake_delivery_sms.png';
-  static const String opCopyrightWarning =
-      'assets/icons/operations/op_copyright_warning.png';
-  static const String opAccountVerification =
-      'assets/icons/operations/op_account_verification.png';
-  static const String opBotFarm = 'assets/icons/operations/op_bot_farm.png';
-  static const String opFakeInvestmentClub =
-      'assets/icons/operations/op_fake_investment_club.png';
-  static const String opFakeGiveaway =
-      'assets/icons/operations/op_fake_giveaway.png';
+  static const String opAccountVerificationKyc =
+      'assets/icons/operations/op_account_verification_kyc.png';
+  static const String opFakeGiveawayGift =
+      'assets/icons/operations/op_fake_giveaway_gift.png';
+  static const String opTechSupportCallcenter =
+      'assets/icons/operations/op_tech_support_callcenter.png';
+  static const String opCopyrightWarningLegal =
+      'assets/icons/operations/op_copyright_warning_legal.png';
+  static const String opFakeMediaBroadcast =
+      'assets/icons/operations/op_fake_media_broadcast.png';
   static const String opAiInfluencerStudio =
       'assets/icons/operations/op_ai_influencer_studio.png';
-  static const String opFakeMediaNetwork =
-      'assets/icons/operations/op_fake_media_network.png';
-  static const String opDeepfakeExecutive =
-      'assets/icons/operations/op_deepfake_executive.png';
+  static const String opFakeDeliverySms =
+      'assets/icons/operations/op_fake_delivery_sms.png';
   static const String opCryptoPumpRoom =
       'assets/icons/operations/op_crypto_pump_room.png';
-  static const String opTechSupportDesk =
-      'assets/icons/operations/op_tech_support_desk.png';
-  static const String opLotteryNotification =
-      'assets/icons/operations/op_lottery_notification.png';
+  static const String opBotFarmNetwork =
+      'assets/icons/operations/op_bot_farm_network.png';
+  static const String opRomanceDatingCon =
+      'assets/icons/operations/op_romance_dating_con.png';
+  static const String opDeepfakeExecutive =
+      'assets/icons/operations/op_deepfake_executive.png';
   static const String opLuxuryTravelScam =
       'assets/icons/operations/op_luxury_travel_scam.png';
-  static const String opMiracleCureAd =
-      'assets/icons/operations/op_miracle_cure_ad.png';
-  static const String opRomanceCon =
-      'assets/icons/operations/op_romance_con.png';
+  static const String opGlobalAffiliatePyramid =
+      'assets/icons/operations/op_global_affiliate_pyramid.png';
   static const String opOffshoreShellCorp =
       'assets/icons/operations/op_offshore_shell_corp.png';
+  static const String opShellCompanyLaundering =
+      'assets/icons/operations/op_shell_company_laundering.png';
+  static const String opPrCrisisManagement =
+      'assets/icons/operations/op_pr_crisis_management.png';
 
   // Status Icons (4x4 = 16)
-  static const String statusSuccessCheck =
-      'assets/icons/status/status_success_check.png';
-  static const String statusWarningTriangle =
-      'assets/icons/status/status_warning_triangle.png';
-  static const String statusDangerFlame =
-      'assets/icons/status/status_danger_flame.png';
-  static const String statusCriticalSkull =
-      'assets/icons/status/status_critical_skull.png';
-  static const String statusMultiplier2x =
-      'assets/icons/status/status_multiplier_2x.png';
-  static const String statusMultiplier5x =
-      'assets/icons/status/status_multiplier_5x.png';
-  static const String statusMultiplier10x =
-      'assets/icons/status/status_multiplier_10x.png';
-  static const String statusLevelUp = 'assets/icons/status/status_level_up.png';
-  static const String statusHeatLow = 'assets/icons/status/status_heat_low.png';
-  static const String statusHeatMedium =
-      'assets/icons/status/status_heat_medium.png';
-  static const String statusHeatHigh =
-      'assets/icons/status/status_heat_high.png';
-  static const String statusHeatRaid =
-      'assets/icons/status/status_heat_raid.png';
-  static const String statusTrustLow =
-      'assets/icons/status/status_trust_low.png';
-  static const String statusTrustMedium =
-      'assets/icons/status/status_trust_medium.png';
-  static const String statusTrustHigh =
-      'assets/icons/status/status_trust_high.png';
-  static const String statusTrustViral =
-      'assets/icons/status/status_trust_viral.png';
+  static const String statusHeatIncreasing =
+      'assets/icons/status/status_heat_increasing.png';
+  static const String statusWarningCaution =
+      'assets/icons/status/status_warning_caution.png';
+  static const String statusTransactionBlocked =
+      'assets/icons/status/status_transaction_blocked.png';
+  static const String statusMoneyLossPenalty =
+      'assets/icons/status/status_money_loss_penalty.png';
+  static const String statusBonusRewardGift =
+      'assets/icons/status/status_bonus_reward_gift.png';
+  static const String statusRaidDangerSkull =
+      'assets/icons/status/status_raid_danger_skull.png';
+  static const String statusIncomeRevenueBoost =
+      'assets/icons/status/status_income_revenue_boost.png';
+  static const String statusHeatCooldownFreeze =
+      'assets/icons/status/status_heat_cooldown_freeze.png';
+  static const String statusTrustIncreaseShield =
+      'assets/icons/status/status_trust_increase_shield.png';
+  static const String statusTrustDecreaseShield =
+      'assets/icons/status/status_trust_decrease_shield.png';
+  static const String statusSuccessCheckGreen =
+      'assets/icons/status/status_success_check_green.png';
+  static const String statusPrestigeEmergencyExit =
+      'assets/icons/status/status_prestige_emergency_exit.png';
+  static const String statusAccountFrozenIce =
+      'assets/icons/status/status_account_frozen_ice.png';
+  static const String statusUnderSurveillanceCctv =
+      'assets/icons/status/status_under_surveillance_cctv.png';
+  static const String statusFeatureUnlockedPadlock =
+      'assets/icons/status/status_feature_unlocked_padlock.png';
+  static const String statusCriticalFailureCross =
+      'assets/icons/status/status_critical_failure_cross.png';
 
   // Achievements (4x4 = 16)
-  static const String achFirstScam =
-      'assets/icons/achievements/ach_first_scam.png';
-  static const String achNobodyAsked =
-      'assets/icons/achievements/ach_nobody_asked.png';
-  static const String achHeatWave =
-      'assets/icons/achievements/ach_heat_wave.png';
-  static const String achOffshoreAccount =
-      'assets/icons/achievements/ach_offshore_account.png';
-  static const String achDefinitelyLegal =
-      'assets/icons/achievements/ach_definitely_legal.png';
-  static const String achWeAreGoodGuys =
-      'assets/icons/achievements/ach_we_are_good_guys.png';
-  static const String achWhoNeedsSleep =
-      'assets/icons/achievements/ach_who_needs_sleep.png';
-  static const String achMasterArchitect =
-      'assets/icons/achievements/ach_master_architect.png';
-  static const String achViralCampaign =
-      'assets/icons/achievements/ach_viral_campaign.png';
-  static const String achDiamondHands =
-      'assets/icons/achievements/ach_diamond_hands.png';
-  static const String achUndercoverAgent =
-      'assets/icons/achievements/ach_undercover_agent.png';
-  static const String achGlobalSyndicate =
-      'assets/icons/achievements/ach_global_syndicate.png';
-  static const String achBillionaireClub =
-      'assets/icons/achievements/ach_billionaire_club.png';
-  static const String achEscapeArtist =
-      'assets/icons/achievements/ach_escape_artist.png';
-  static const String achSupremeInfluencer =
-      'assets/icons/achievements/ach_supreme_influencer.png';
-  static const String achUntouchable =
-      'assets/icons/achievements/ach_untouchable.png';
+  static const String achGlobalSyndicateNetwork =
+      'assets/icons/achievements/ach_global_syndicate_network.png';
+  static const String achUntouchableKingpinCrown =
+      'assets/icons/achievements/ach_untouchable_kingpin_crown.png';
+  static const String achAuditPassedInvestigation =
+      'assets/icons/achievements/ach_audit_passed_investigation.png';
+  static const String achRiggedJusticeScales =
+      'assets/icons/achievements/ach_rigged_justice_scales.png';
+  static const String achFirstTrustPartnership =
+      'assets/icons/achievements/ach_first_trust_partnership.png';
+  static const String achFirstMillionVault =
+      'assets/icons/achievements/ach_first_million_vault.png';
+  static const String achMasterNegotiatorWreath =
+      'assets/icons/achievements/ach_master_negotiator_wreath.png';
+  static const String achViralInfluencerStar =
+      'assets/icons/achievements/ach_viral_influencer_star.png';
+  static const String achBigPaydayBriefcase =
+      'assets/icons/achievements/ach_big_payday_briefcase.png';
+  static const String achHeatWaveSurvivedRaid =
+      'assets/icons/achievements/ach_heat_wave_survived_raid.png';
+  static const String achTheGodfatherBoss =
+      'assets/icons/achievements/ach_the_godfather_boss.png';
+  static const String achGamingTycoonMaster =
+      'assets/icons/achievements/ach_gaming_tycoon_master.png';
+  static const String achDeskTycoonFirstOffice =
+      'assets/icons/achievements/ach_desk_tycoon_first_office.png';
+  static const String achGlobalEmpireSkyline =
+      'assets/icons/achievements/ach_global_empire_skyline.png';
+  static const String achOffshoreEscapeFirstPrestige =
+      'assets/icons/achievements/ach_offshore_escape_first_prestige.png';
+  static const String achBotArmyAutomation =
+      'assets/icons/achievements/ach_bot_army_automation.png';
 
   // Character Avatars (4x4 = 16)
   static const String charCeoFounder =
@@ -261,74 +327,74 @@ abstract class AppAssets {
       'assets/avatars/chat/chat_scam_baiter.png';
 
   // Company Office Evolution (4x2 = 8)
-  static const String officeTier1Basement =
-      'assets/illustrations/company/office_tier1_basement.png';
-  static const String officeTier2Garage =
-      'assets/illustrations/company/office_tier2_garage.png';
-  static const String officeTier3Coworking =
-      'assets/illustrations/company/office_tier3_coworking.png';
-  static const String officeTier4Suburban =
-      'assets/illustrations/company/office_tier4_suburban.png';
-  static const String officeTier5Downtown =
-      'assets/illustrations/company/office_tier5_downtown.png';
-  static const String officeTier6GlassTower =
-      'assets/illustrations/company/office_tier6_glass_tower.png';
-  static const String officeTier7Penthouse =
-      'assets/illustrations/company/office_tier7_penthouse.png';
-  static const String officeTier8OffshoreIsland =
-      'assets/illustrations/company/office_tier8_offshore_island.png';
+  static const String officeTier1BasementBedroom =
+      'assets/illustrations/company/office_tier1_basement_bedroom.png';
+  static const String officeTier2GarageStartup =
+      'assets/illustrations/company/office_tier2_garage_startup.png';
+  static const String officeTier3SharedCoworking =
+      'assets/illustrations/company/office_tier3_shared_coworking.png';
+  static const String officeTier4SuburbanCommercial =
+      'assets/illustrations/company/office_tier4_suburban_commercial.png';
+  static const String officeTier5DowntownOffice =
+      'assets/illustrations/company/office_tier5_downtown_office.png';
+  static const String officeTier6CorporateGlassTower =
+      'assets/illustrations/company/office_tier6_corporate_glass_tower.png';
+  static const String officeTier7LuxuryPenthouseHq =
+      'assets/illustrations/company/office_tier7_luxury_penthouse_hq.png';
+  static const String officeTier8OffshoreIslandFortress =
+      'assets/illustrations/company/office_tier8_offshore_island_fortress.png';
 
   // Event Illustrations (2x4 = 8)
   static const String eventJournalistInvestigation =
       'assets/illustrations/events/event_journalist_investigation.png';
-  static const String eventViralTrend =
-      'assets/illustrations/events/event_viral_trend.png';
-  static const String eventServerRaid =
-      'assets/illustrations/events/event_server_raid.png';
-  static const String eventInfluencerCollab =
-      'assets/illustrations/events/event_influencer_collab.png';
-  static const String eventBankFreeze =
-      'assets/illustrations/events/event_bank_freeze.png';
+  static const String eventViralTrendExplosion =
+      'assets/illustrations/events/event_viral_trend_explosion.png';
+  static const String eventServerRoomPoliceRaid =
+      'assets/illustrations/events/event_server_room_police_raid.png';
+  static const String eventInfluencerCollabDeal =
+      'assets/illustrations/events/event_influencer_collab_deal.png';
+  static const String eventBankAccountFreeze =
+      'assets/illustrations/events/event_bank_account_freeze.png';
   static const String eventWhistleblowerLeak =
       'assets/illustrations/events/event_whistleblower_leak.png';
-  static const String eventSystemBlackout =
-      'assets/illustrations/events/event_system_blackout.png';
-  static const String eventOffshoreOpportunity =
-      'assets/illustrations/events/event_offshore_opportunity.png';
+  static const String eventSystemBlackoutCrash =
+      'assets/illustrations/events/event_system_blackout_crash.png';
+  static const String eventOffshoreInvestmentOpportunity =
+      'assets/illustrations/events/event_offshore_investment_opportunity.png';
 
   // Prestige Illustrations (2x4 = 8)
-  static const String prestigePrivateJet =
-      'assets/illustrations/prestige/prestige_private_jet.png';
-  static const String prestigeYachtEscape =
-      'assets/illustrations/prestige/prestige_yacht_escape.png';
-  static const String prestigeTropicalResort =
-      'assets/illustrations/prestige/prestige_tropical_resort.png';
-  static const String prestigeSwissVault =
-      'assets/illustrations/prestige/prestige_swiss_vault.png';
-  static const String prestigeSatelliteNetwork =
-      'assets/illustrations/prestige/prestige_satellite_network.png';
-  static const String prestigeGoldenParachute =
-      'assets/illustrations/prestige/prestige_golden_parachute.png';
-  static const String prestigeOffshoreHoldingCo =
-      'assets/illustrations/prestige/prestige_offshore_holding_co.png';
+  static const String prestigePrivateJetRunway =
+      'assets/illustrations/prestige/prestige_private_jet_runway.png';
+  static const String prestigeLuxuryYachtEscape =
+      'assets/illustrations/prestige/prestige_luxury_yacht_escape.png';
+  static const String prestigeTropicalResortHaven =
+      'assets/illustrations/prestige/prestige_tropical_resort_haven.png';
+  static const String prestigeSwissVaultGold =
+      'assets/illustrations/prestige/prestige_swiss_vault_gold.png';
+  static const String prestigeSatelliteOrbitalNetwork =
+      'assets/illustrations/prestige/prestige_satellite_orbital_network.png';
+  static const String prestigeGoldenParachutePayout =
+      'assets/illustrations/prestige/prestige_golden_parachute_payout.png';
+  static const String prestigeOffshoreHoldingTower =
+      'assets/illustrations/prestige/prestige_offshore_holding_tower.png';
   static const String prestigeShadowSyndicateHq =
       'assets/illustrations/prestige/prestige_shadow_syndicate_hq.png';
 
   // Tutorial Illustrations (2x4 = 8)
-  static const String tutTapToEarn =
-      'assets/illustrations/tutorial/tut_tap_to_earn.png';
-  static const String tutManageOperations =
-      'assets/illustrations/tutorial/tut_manage_operations.png';
-  static const String tutWatchHeat =
-      'assets/illustrations/tutorial/tut_watch_heat.png';
-  static const String tutEarnTrust =
-      'assets/illustrations/tutorial/tut_earn_trust.png';
-  static const String tutSuspiciousChat =
-      'assets/illustrations/tutorial/tut_suspicious_chat.png';
-  static const String tutSpotRedFlags =
-      'assets/illustrations/tutorial/tut_spot_red_flags.png';
-  static const String tutEscapePrestige =
-      'assets/illustrations/tutorial/tut_escape_prestige.png';
-  static const String tutSkillTreeGrowth =
-      'assets/illustrations/tutorial/tut_skill_tree_growth.png';
+  static const String tutTapToEarnBasics =
+      'assets/illustrations/tutorial/tut_tap_to_earn_basics.png';
+  static const String tutLaunchOperationsSetup =
+      'assets/illustrations/tutorial/tut_launch_operations_setup.png';
+  static const String tutMonitorHeatRisk =
+      'assets/illustrations/tutorial/tut_monitor_heat_risk.png';
+  static const String tutBuildTrustReputation =
+      'assets/illustrations/tutorial/tut_build_trust_reputation.png';
+  static const String tutSuspiciousChatMinigame =
+      'assets/illustrations/tutorial/tut_suspicious_chat_minigame.png';
+  static const String tutSpotRedFlagsAwareness =
+      'assets/illustrations/tutorial/tut_spot_red_flags_awareness.png';
+  static const String tutPrestigeOffshoreEscape =
+      'assets/illustrations/tutorial/tut_prestige_offshore_escape.png';
+  static const String tutPermanentSkillTreeGrowth =
+      'assets/illustrations/tutorial/tut_permanent_skill_tree_growth.png';
 }

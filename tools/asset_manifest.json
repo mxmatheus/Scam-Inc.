@@ -5,12 +5,12 @@
     "output": "assets/branding",
     "prefix": "logo_",
     "names": [
-      "primary",
-      "badge",
-      "dark",
-      "icon",
-      "text",
-      "monochrome"
+      "primary_banner",
+      "badge_emblem",
+      "dark_banner",
+      "standalone_icon",
+      "typography_wordmark",
+      "monochrome_stamp"
     ]
   },
   "app_icon.png": {
@@ -28,14 +28,70 @@
     "output": "assets/icons/core",
     "prefix": "core_",
     "names": [
-      "money", "income", "trust", "heat", "diamond", "trophy", "gear", "star",
-      "tap", "upgrade", "lock", "unlock", "check", "cross", "info", "alert",
-      "refresh", "play", "pause", "fast_forward", "volume_on", "volume_off", "music_on", "music_off",
-      "home", "operations", "network", "events", "prestige", "settings", "shop", "achievements",
-      "arrow_up", "arrow_down", "arrow_left", "arrow_right", "plus", "minus", "edit", "trash",
-      "clock", "calendar", "fire", "shield", "target", "lightbulb", "chart", "bank",
-      "email", "message", "phone", "globe", "wifi", "signal", "battery", "notification",
-      "safe", "key", "briefcase", "document", "user", "users", "crown", "gift"
+      "newspaper_press",
+      "target_criminal",
+      "broken_link",
+      "user_avatar",
+      "fake_verified_mask",
+      "hyperlink_chain",
+      "luxury_yacht",
+      "minus_circle_block",
+      "play_button_circle",
+      "gift_box_reward",
+      "cash_briefcase",
+      "detective_magnifier",
+      "calendar_star",
+      "swat_police_raid",
+      "loudspeaker_audio",
+      "money_laundering_washer",
+      "pause_button_circle",
+      "analytics_pie_gear",
+      "vault_safe_door",
+      "social_media_network",
+      "pc_workstation",
+      "wall_clock_timer",
+      "growth_tree_arrow",
+      "notification_bell",
+      "check_circle_confirmed",
+      "heat_fire_alarm",
+      "ai_bot_head",
+      "income_coin_stack_up",
+      "security_shield_check",
+      "refresh_sync_loop",
+      "offshore_palm_island",
+      "raid_skull_siren",
+      "championship_trophy",
+      "bar_chart_growth",
+      "cash_stack_bundle",
+      "alert_bell_exclamation",
+      "chat_speech_bubble",
+      "influencer_selfie_phone",
+      "arrow_up_circle_upgrade",
+      "neural_network_brain",
+      "server_rack_datacenter",
+      "golden_star",
+      "executive_office_hq",
+      "settings_gear_cog",
+      "investment_sprout_coins",
+      "corporate_towers_skyline",
+      "arrow_down_circle",
+      "market_trend_exponential",
+      "idle_offline_cash",
+      "video_studio_camera",
+      "plus_circle_add",
+      "padlock_locked",
+      "padlock_unlocked",
+      "royal_crown_cushion",
+      "robotic_arm_automation",
+      "money_faucet_tap",
+      "handshake_trust_deal",
+      "cctv_security_camera",
+      "warning_caution_triangle",
+      "help_question_circle",
+      "info_details_circle",
+      "email_letter_envelope",
+      "smartphone_mobile",
+      "cancel_cross_circle"
     ]
   },
   "resource_icon_sprite_sheet.png": {
@@ -44,8 +100,14 @@
     "output": "assets/icons/resources",
     "prefix": "res_",
     "names": [
-      "s_coins", "trust_points", "heat_meter", "laundered_cash",
-      "gems", "influence", "retainer_shield", "offshore_passport"
+      "s_coins",
+      "trust_points",
+      "heat_meter",
+      "laundered_cash",
+      "income_growth_briefcase",
+      "heat_gauge_speedometer",
+      "influence_prestige_star",
+      "offshore_vip_crown"
     ]
   },
   "operation_icon_sprite_sheet.png": {
@@ -54,10 +116,22 @@
     "output": "assets/icons/operations",
     "prefix": "op_",
     "names": [
-      "fake_delivery_sms", "copyright_warning", "account_verification", "bot_farm",
-      "fake_investment_club", "fake_giveaway", "ai_influencer_studio", "fake_media_network",
-      "deepfake_executive", "crypto_pump_room", "tech_support_desk", "lottery_notification",
-      "luxury_travel_scam", "miracle_cure_ad", "romance_con", "offshore_shell_corp"
+      "account_verification_kyc",
+      "fake_giveaway_gift",
+      "tech_support_callcenter",
+      "copyright_warning_legal",
+      "fake_media_broadcast",
+      "ai_influencer_studio",
+      "fake_delivery_sms",
+      "crypto_pump_room",
+      "bot_farm_network",
+      "romance_dating_con",
+      "deepfake_executive",
+      "luxury_travel_scam",
+      "global_affiliate_pyramid",
+      "offshore_shell_corp",
+      "shell_company_laundering",
+      "pr_crisis_management"
     ]
   },
   "status_feedback_sprite_sheet.png": {
@@ -66,10 +140,22 @@
     "output": "assets/icons/status",
     "prefix": "status_",
     "names": [
-      "success_check", "warning_triangle", "danger_flame", "critical_skull",
-      "multiplier_2x", "multiplier_5x", "multiplier_10x", "level_up",
-      "heat_low", "heat_medium", "heat_high", "heat_raid",
-      "trust_low", "trust_medium", "trust_high", "trust_viral"
+      "heat_increasing",
+      "warning_caution",
+      "transaction_blocked",
+      "money_loss_penalty",
+      "bonus_reward_gift",
+      "raid_danger_skull",
+      "income_revenue_boost",
+      "heat_cooldown_freeze",
+      "trust_increase_shield",
+      "trust_decrease_shield",
+      "success_check_green",
+      "prestige_emergency_exit",
+      "account_frozen_ice",
+      "under_surveillance_cctv",
+      "feature_unlocked_padlock",
+      "critical_failure_cross"
     ]
   },
   "achievement_sprite_sheet.png": {
@@ -78,10 +164,22 @@
     "output": "assets/icons/achievements",
     "prefix": "ach_",
     "names": [
-      "first_scam", "nobody_asked", "heat_wave", "offshore_account",
-      "definitely_legal", "we_are_good_guys", "who_needs_sleep", "master_architect",
-      "viral_campaign", "diamond_hands", "undercover_agent", "global_syndicate",
-      "billionaire_club", "escape_artist", "supreme_influencer", "untouchable"
+      "global_syndicate_network",
+      "untouchable_kingpin_crown",
+      "audit_passed_investigation",
+      "rigged_justice_scales",
+      "first_trust_partnership",
+      "first_million_vault",
+      "master_negotiator_wreath",
+      "viral_influencer_star",
+      "big_payday_briefcase",
+      "heat_wave_survived_raid",
+      "the_godfather_boss",
+      "gaming_tycoon_master",
+      "desk_tycoon_first_office",
+      "global_empire_skyline",
+      "offshore_escape_first_prestige",
+      "bot_army_automation"
     ]
   },
   "company_office_evolution_sprite_sheet.png": {
@@ -90,8 +188,14 @@
     "output": "assets/illustrations/company",
     "prefix": "office_",
     "names": [
-      "tier1_basement", "tier2_garage", "tier3_coworking", "tier4_suburban",
-      "tier5_downtown", "tier6_glass_tower", "tier7_penthouse", "tier8_offshore_island"
+      "tier1_basement_bedroom",
+      "tier2_garage_startup",
+      "tier3_shared_coworking",
+      "tier4_suburban_commercial",
+      "tier5_downtown_office",
+      "tier6_corporate_glass_tower",
+      "tier7_luxury_penthouse_hq",
+      "tier8_offshore_island_fortress"
     ]
   },
   "character_avatar_sprite_sheet.png": {
@@ -100,10 +204,22 @@
     "output": "assets/avatars/characters",
     "prefix": "char_",
     "names": [
-      "ceo_founder", "rogue_coder", "pr_director", "shady_lawyer",
-      "crypto_bro", "ai_persona", "telemarketer", "fake_auditor",
-      "corporate_executive", "offshore_banker", "intern", "security_chief",
-      "undercover_detective", "online_scam_baiter", "victim_avatar", "mysterious_benefactor"
+      "ceo_founder",
+      "rogue_coder",
+      "pr_director",
+      "shady_lawyer",
+      "crypto_bro",
+      "ai_persona",
+      "telemarketer",
+      "fake_auditor",
+      "corporate_executive",
+      "offshore_banker",
+      "intern",
+      "security_chief",
+      "undercover_detective",
+      "online_scam_baiter",
+      "victim_avatar",
+      "mysterious_benefactor"
     ]
   },
   "chat_avatar_sprite_sheet.png": {
@@ -112,10 +228,22 @@
     "output": "assets/avatars/chat",
     "prefix": "chat_",
     "names": [
-      "delivery_support", "bank_security", "lottery_host", "social_moderator",
-      "desperate_prince", "crypto_guru", "tech_support", "government_agent",
-      "influencer_manager", "suspicious_buyer", "anonymous_hacker", "worried_user",
-      "automated_bot", "journalist", "tax_officer", "scam_baiter"
+      "delivery_support",
+      "bank_security",
+      "lottery_host",
+      "social_moderator",
+      "desperate_prince",
+      "crypto_guru",
+      "tech_support",
+      "government_agent",
+      "influencer_manager",
+      "suspicious_buyer",
+      "anonymous_hacker",
+      "worried_user",
+      "automated_bot",
+      "journalist",
+      "tax_officer",
+      "scam_baiter"
     ]
   },
   "event_illustration_sprite_sheet.png": {
@@ -124,10 +252,14 @@
     "output": "assets/illustrations/events",
     "prefix": "event_",
     "names": [
-      "journalist_investigation", "viral_trend",
-      "server_raid", "influencer_collab",
-      "bank_freeze", "whistleblower_leak",
-      "system_blackout", "offshore_opportunity"
+      "journalist_investigation",
+      "viral_trend_explosion",
+      "server_room_police_raid",
+      "influencer_collab_deal",
+      "bank_account_freeze",
+      "whistleblower_leak",
+      "system_blackout_crash",
+      "offshore_investment_opportunity"
     ]
   },
   "prestige_sprite_sheet.png": {
@@ -136,10 +268,14 @@
     "output": "assets/illustrations/prestige",
     "prefix": "prestige_",
     "names": [
-      "private_jet", "yacht_escape",
-      "tropical_resort", "swiss_vault",
-      "satellite_network", "golden_parachute",
-      "offshore_holding_co", "shadow_syndicate_hq"
+      "private_jet_runway",
+      "luxury_yacht_escape",
+      "tropical_resort_haven",
+      "swiss_vault_gold",
+      "satellite_orbital_network",
+      "golden_parachute_payout",
+      "offshore_holding_tower",
+      "shadow_syndicate_hq"
     ]
   },
   "tutorial_sprite_sheet.png": {
@@ -148,10 +284,14 @@
     "output": "assets/illustrations/tutorial",
     "prefix": "tut_",
     "names": [
-      "tap_to_earn", "manage_operations",
-      "watch_heat", "earn_trust",
-      "suspicious_chat", "spot_red_flags",
-      "escape_prestige", "skill_tree_growth"
+      "tap_to_earn_basics",
+      "launch_operations_setup",
+      "monitor_heat_risk",
+      "build_trust_reputation",
+      "suspicious_chat_minigame",
+      "spot_red_flags_awareness",
+      "prestige_offshore_escape",
+      "permanent_skill_tree_growth"
     ]
   }
 }

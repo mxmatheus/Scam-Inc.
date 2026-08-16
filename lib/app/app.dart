@@ -88,7 +88,7 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                         ),
                         padding: const EdgeInsets.all(4),
                         child: const ScamIcon(
-                          assetPath: AppAssets.logoIcon,
+                          assetPath: AppAssets.logoStandaloneIcon,
                           size: 32,
                         ),
                       ),
@@ -120,7 +120,7 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                     ),
                     child: IconButton(
                       icon: const ScamIcon(
-                        assetPath: AppAssets.coreSettings,
+                        assetPath: AppAssets.coreSettingsGearCog,
                         size: 20,
                       ),
                       onPressed: () {},
@@ -273,7 +273,7 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                         ),
                         child: const Center(
                           child: ScamIcon(
-                            assetPath: AppAssets.coreTap,
+                            assetPath: AppAssets.coreMoneyFaucetTap,
                             size: 36,
                           ),
                         ),
