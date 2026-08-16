@@ -3,13 +3,34 @@ import '../../data/providers/repository_providers.dart';
 import '../../models/player_save.dart';
 import '../../models/player_state.dart';
 import '../../models/operation.dart';
+import '../../models/upgrade.dart';
+import '../../models/prestige_skill.dart';
 import '../economy_service.dart';
 import '../game_clock_service.dart';
+import '../heat_service.dart';
+import '../trust_service.dart';
+import '../offline_income_service.dart';
 import '../../game/game_controller.dart';
 
 /// Provider for pure [EconomyService].
 final economyServiceProvider = Provider<EconomyService>((ref) {
   return const EconomyService();
+});
+
+/// Provider for [HeatService].
+final heatServiceProvider = Provider<HeatService>((ref) {
+  return const HeatService();
+});
+
+/// Provider for [TrustService].
+final trustServiceProvider = Provider<TrustService>((ref) {
+  return const TrustService();
+});
+
+/// Provider for [OfflineIncomeService].
+final offlineIncomeServiceProvider = Provider<OfflineIncomeService>((ref) {
+  final economy = ref.watch(economyServiceProvider);
+  return OfflineIncomeService(economyService: economy);
 });
 
 /// Provider for singleton [GameClockService].
@@ -26,11 +47,17 @@ final gameControllerProvider =
     StateNotifierProvider<GameController, PlayerSave>((ref) {
       final saveRepo = ref.watch(saveRepositoryProvider);
       final economyService = ref.watch(economyServiceProvider);
+      final heatService = ref.watch(heatServiceProvider);
+      final trustService = ref.watch(trustServiceProvider);
+      final offlineIncomeService = ref.watch(offlineIncomeServiceProvider);
       final gameClock = ref.watch(gameClockServiceProvider);
 
       return GameController(
         saveRepository: saveRepo,
         economyService: economyService,
+        heatService: heatService,
+        trustService: trustService,
+        offlineIncomeService: offlineIncomeService,
         gameClock: gameClock,
       );
     });
@@ -40,9 +67,19 @@ final playerStateProvider = Provider<PlayerState>((ref) {
   return ref.watch(gameControllerProvider).playerState;
 });
 
-/// Convenience selector for active/unlocked [Operation] list.
+/// Convenience selector for [Operation] list.
 final operationsProvider = Provider<List<Operation>>((ref) {
   return ref.watch(gameControllerProvider).operations;
+});
+
+/// Convenience selector for [Upgrade] list.
+final upgradesProvider = Provider<List<Upgrade>>((ref) {
+  return ref.watch(gameControllerProvider).upgrades;
+});
+
+/// Convenience selector for [PrestigeSkill] list.
+final prestigeSkillsProvider = Provider<List<PrestigeSkill>>((ref) {
+  return ref.watch(gameControllerProvider).prestigeSkills;
 });
 
 /// Convenience selector for current total income per second.
@@ -57,4 +94,11 @@ final incomePerSecondProvider = Provider<double>((ref) {
     trust: save.playerState.trust,
     prestigeMultiplier: save.playerState.prestigeMultiplier,
   );
+});
+
+/// Convenience selector for Heat Status.
+final heatStatusProvider = Provider<HeatStatus>((ref) {
+  final heat = ref.watch(playerStateProvider).heat;
+  final heatService = ref.watch(heatServiceProvider);
+  return heatService.getHeatStatus(heat);
 });

@@ -2,6 +2,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:scam_inc/data/storage/local_storage_adapter.dart';
 import 'package:scam_inc/data/repositories/save_repository.dart';
 import 'package:scam_inc/services/economy_service.dart';
+import 'package:scam_inc/services/heat_service.dart';
+import 'package:scam_inc/services/trust_service.dart';
+import 'package:scam_inc/services/offline_income_service.dart';
 import 'package:scam_inc/services/game_clock_service.dart';
 import 'package:scam_inc/game/game_controller.dart';
 
@@ -12,6 +15,9 @@ void main() {
     late InMemoryStorageAdapter storage;
     late SaveRepository saveRepository;
     late EconomyService economyService;
+    late HeatService heatService;
+    late TrustService trustService;
+    late OfflineIncomeService offlineIncomeService;
     late GameClockService gameClock;
     late GameController controller;
 
@@ -19,11 +25,17 @@ void main() {
       storage = InMemoryStorageAdapter();
       saveRepository = SaveRepository(storage);
       economyService = const EconomyService();
+      heatService = const HeatService();
+      trustService = const TrustService();
+      offlineIncomeService = const OfflineIncomeService();
       gameClock = GameClockService();
 
       controller = GameController(
         saveRepository: saveRepository,
         economyService: economyService,
+        heatService: heatService,
+        trustService: trustService,
+        offlineIncomeService: offlineIncomeService,
         gameClock: gameClock,
       );
     });

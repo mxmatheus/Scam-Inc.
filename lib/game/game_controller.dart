@@ -6,22 +6,37 @@ import '../models/upgrade.dart';
 import '../data/repositories/save_repository.dart';
 import '../data/seeds/game_seeds.dart';
 import '../services/economy_service.dart';
+import '../services/heat_service.dart';
+import '../services/trust_service.dart';
+import '../services/offline_income_service.dart';
 import '../services/game_clock_service.dart';
 
 /// Central Game State Controller managing active progression, tick events, and persistence.
 class GameController extends StateNotifier<PlayerSave> {
   final SaveRepository _saveRepository;
   final EconomyService _economyService;
+  final HeatService _heatService;
+  final TrustService _trustService;
+  final OfflineIncomeService _offlineIncomeService;
   final GameClockService _gameClock;
   Timer? _autoSaveTimer;
+
+  OfflineEarningsResult? _pendingOfflineEarnings;
+  OfflineEarningsResult? get pendingOfflineEarnings => _pendingOfflineEarnings;
 
   GameController({
     required SaveRepository saveRepository,
     required EconomyService economyService,
+    required HeatService heatService,
+    required TrustService trustService,
+    required OfflineIncomeService offlineIncomeService,
     required GameClockService gameClock,
     PlayerSave? initialSave,
   }) : _saveRepository = saveRepository,
        _economyService = economyService,
+       _heatService = heatService,
+       _trustService = trustService,
+       _offlineIncomeService = offlineIncomeService,
        _gameClock = gameClock,
        super(
          initialSave ??
@@ -50,6 +65,19 @@ class GameController extends StateNotifier<PlayerSave> {
       }
     }
 
+    // Check for offline progress earnings
+    final offlineResult = _offlineIncomeService.calculateOfflineEarnings(
+      playerState: state.playerState,
+      operations: state.operations,
+      upgrades: state.upgrades,
+      prestigeSkills: state.prestigeSkills,
+      now: DateTime.now(),
+    );
+
+    if (offlineResult.isEligible) {
+      _pendingOfflineEarnings = offlineResult;
+    }
+
     // Attach clock listener and start tick engine
     _gameClock.addListener(_onGameTick);
     _gameClock.start();
@@ -58,6 +86,29 @@ class GameController extends StateNotifier<PlayerSave> {
     _autoSaveTimer = Timer.periodic(const Duration(seconds: 30), (_) {
       saveGame();
     });
+  }
+
+  /// Claims and applies pending offline earnings.
+  void claimOfflineEarnings() {
+    if (_pendingOfflineEarnings == null ||
+        !_pendingOfflineEarnings!.isEligible) {
+      return;
+    }
+
+    final result = _pendingOfflineEarnings!;
+    final updatedPlayerState = state.playerState.copyWith(
+      coins: state.playerState.coins + result.earnedCoins,
+      lifetimeRevenue: state.playerState.lifetimeRevenue + result.earnedCoins,
+      heat: _heatService.clampHeat(state.playerState.heat + result.earnedHeat),
+      trust: _trustService.clampTrust(
+        state.playerState.trust + result.earnedTrust,
+      ),
+      lastActiveTimestamp: DateTime.now(),
+    );
+
+    _pendingOfflineEarnings = null;
+    state = state.copyWith(playerState: updatedPlayerState);
+    saveGame();
   }
 
   /// Handles manual user screen tap action.
@@ -79,7 +130,7 @@ class GameController extends StateNotifier<PlayerSave> {
     state = state.copyWith(playerState: updatedState);
   }
 
-  /// Purchases or levels up an operation.
+  /// Purchases or levels up an operation (supporting 1x, 10x, 100x).
   bool buyOperation(String operationId, {int count = 1}) {
     final opIndex = state.operations.indexWhere((o) => o.id == operationId);
     if (opIndex == -1) return false;
@@ -138,6 +189,37 @@ class GameController extends StateNotifier<PlayerSave> {
     return true;
   }
 
+  /// Bribes police/investigators to cool down Heat.
+  bool bribePolice() {
+    final currentHeat = state.playerState.heat;
+    if (currentHeat <= 0.0) return false;
+
+    final incomePerSec = _economyService.calculateTotalIncomePerSec(
+      operations: state.operations,
+      upgrades: state.upgrades,
+      prestigeSkills: state.prestigeSkills,
+      trust: state.playerState.trust,
+      prestigeMultiplier: state.playerState.prestigeMultiplier,
+    );
+
+    final cost = _heatService.calculateBribeCost(currentHeat, incomePerSec);
+    if (!_economyService.canAfford(state.playerState.coins, cost)) {
+      return false;
+    }
+
+    final delta = _heatService.calculateHeatCooldownDelta();
+    final updatedHeat = _heatService.clampHeat(currentHeat + delta);
+
+    final updatedPlayerState = state.playerState.copyWith(
+      coins: state.playerState.coins - cost,
+      heat: updatedHeat,
+      lastActiveTimestamp: DateTime.now(),
+    );
+
+    state = state.copyWith(playerState: updatedPlayerState);
+    return true;
+  }
+
   /// Invoked on every logical game clock tick.
   void _onGameTick(Duration delta) {
     if (delta.inMicroseconds <= 0) return;
@@ -165,16 +247,28 @@ class GameController extends StateNotifier<PlayerSave> {
     final heatDelta = heatPerSec * seconds;
     final trustDelta = trustPerSec * seconds;
 
+    // Check operation unlocks based on new Trust
+    final newTrust = _trustService.clampTrust(
+      state.playerState.trust + trustDelta,
+    );
+    final updatedOperations = state.operations.map((op) {
+      if (!op.isUnlocked && _trustService.isOperationUnlocked(op, newTrust)) {
+        return op.copyWith(isUnlocked: true);
+      }
+      return op;
+    }).toList();
+
     final updatedPlayerState = state.playerState.copyWith(
       coins: state.playerState.coins + earnedCoins,
       lifetimeRevenue: state.playerState.lifetimeRevenue + earnedCoins,
-      heat: state.playerState.heat + heatDelta,
-      trust: state.playerState.trust + trustDelta,
+      heat: _heatService.clampHeat(state.playerState.heat + heatDelta),
+      trust: newTrust,
       lastActiveTimestamp: DateTime.now(),
     );
 
     state = state.copyWith(
       playerState: updatedPlayerState,
+      operations: updatedOperations,
       savedAt: DateTime.now(),
     );
   }
