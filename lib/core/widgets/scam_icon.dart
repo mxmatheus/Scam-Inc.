@@ -23,6 +23,8 @@ class ScamIcon extends StatelessWidget {
       height: size,
       color: color,
       fit: fit,
+      gaplessPlayback: true,
+      filterQuality: FilterQuality.low,
       errorBuilder: (context, error, stackTrace) {
         return Icon(
           Icons.broken_image_outlined,

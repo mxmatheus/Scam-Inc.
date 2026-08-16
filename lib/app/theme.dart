@@ -71,7 +71,9 @@ abstract class AppShadows {
 }
 
 class AppTheme {
-  static ThemeData get lightTheme {
+  static final ThemeData lightTheme = _buildLightTheme();
+
+  static ThemeData _buildLightTheme() {
     final baseTextTheme = GoogleFonts.interTextTheme();
 
     return ThemeData(

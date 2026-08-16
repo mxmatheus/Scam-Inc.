@@ -247,16 +247,20 @@ class GameController extends StateNotifier<PlayerSave> {
     final heatDelta = heatPerSec * seconds;
     final trustDelta = trustPerSec * seconds;
 
-    // Check operation unlocks based on new Trust
+    // Check operation unlocks based on new Trust only when trust threshold is reached
     final newTrust = _trustService.clampTrust(
       state.playerState.trust + trustDelta,
     );
-    final updatedOperations = state.operations.map((op) {
+    List<Operation> operationsList = state.operations;
+    for (int i = 0; i < state.operations.length; i++) {
+      final op = state.operations[i];
       if (!op.isUnlocked && _trustService.isOperationUnlocked(op, newTrust)) {
-        return op.copyWith(isUnlocked: true);
+        if (identical(operationsList, state.operations)) {
+          operationsList = List<Operation>.from(state.operations);
+        }
+        operationsList[i] = op.copyWith(isUnlocked: true);
       }
-      return op;
-    }).toList();
+    }
 
     final updatedPlayerState = state.playerState.copyWith(
       coins: state.playerState.coins + earnedCoins,
@@ -268,7 +272,7 @@ class GameController extends StateNotifier<PlayerSave> {
 
     state = state.copyWith(
       playerState: updatedPlayerState,
-      operations: updatedOperations,
+      operations: operationsList,
       savedAt: DateTime.now(),
     );
   }

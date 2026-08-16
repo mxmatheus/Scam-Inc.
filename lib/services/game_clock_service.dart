@@ -11,7 +11,7 @@ class GameClockService with WidgetsBindingObserver {
   bool _isPaused = false;
   final List<GameTickCallback> _listeners = [];
 
-  GameClockService({this.tickInterval = const Duration(milliseconds: 250)});
+  GameClockService({this.tickInterval = const Duration(milliseconds: 500)});
 
   bool get isRunning => _timer != null && _timer!.isActive && !_isPaused;
   bool get isPaused => _isPaused;
