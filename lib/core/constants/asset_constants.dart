@@ -1,16 +1,8 @@
 /// SCAM INC. — Typed Asset Constants
 /// All asset references are centralized here with 100% exact visual naming.
 abstract class AppAssets {
-  // Branding (6 + 1 = 7)
-  static const String logoPrimaryBanner =
-      'assets/branding/logo_primary_banner.png';
-  static const String logoBadgeEmblem = 'assets/branding/logo_badge_emblem.png';
-  static const String logoDarkFull = 'assets/branding/logo_dark_full.png';
-  static const String logoMonogramIcon =
-      'assets/branding/logo_monogram_icon.png';
-  static const String logoTypographyWordmark =
-      'assets/branding/logo_typography_wordmark.png';
-  static const String logoBadgesPack = 'assets/branding/logo_badges_pack.png';
+  // Branding
+  static const String logoScamInc = 'assets/branding/scam_inc_logo.png';
   static const String appIconMain = 'assets/branding/app_icon_main.png';
 
   // Core UI Icons (8x8 = 64)
