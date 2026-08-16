@@ -1,0 +1,53 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+__pycache__/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# VS Code
+.vscode/
+
+# System / AI Internal Tracking (DO NOT COMMIT)
+.system_generated/
+.gemini/
+
+# Private Game Design & Prompt Pack Documents (USER MANDATE: NEVER PUSH TO GITHUB)
+SCAM_INC_AI_Development_Prompt_Pack*.md
+SCAM_INC_Game_Design_Document*.md
+SCAM_INC_*.md
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+/coverage/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release

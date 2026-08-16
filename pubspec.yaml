@@ -1,0 +1,39 @@
+name: scam_inc
+description: "SCAM INC. — The Art of Deception (Satirical Mobile Idle/Tycoon Game)"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.5
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  flutter_riverpod: ^2.6.1
+  shared_preferences: ^2.3.5
+  google_fonts: ^6.2.1
+  intl: ^0.20.2
+  flutter_animate: ^4.5.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/branding/
+    - assets/icons/core/
+    - assets/icons/resources/
+    - assets/icons/operations/
+    - assets/icons/status/
+    - assets/icons/achievements/
+    - assets/illustrations/company/
+    - assets/avatars/characters/
+    - assets/avatars/chat/
+    - assets/illustrations/events/
+    - assets/illustrations/prestige/
+    - assets/illustrations/tutorial/
