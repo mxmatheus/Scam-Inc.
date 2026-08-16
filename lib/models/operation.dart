@@ -50,9 +50,12 @@ class Operation {
 
   /// Calculates the total unmultiplied income per second for the current level.
   double get currentIncomePerSecond => baseIncome * level;
+  double get incomePerSecond => currentIncomePerSecond;
 
   /// Calculates the total heat generated per second.
-  double get currentHeatPerSecond => baseHeatPerSecond * level;
+  double get currentHeatPerSecond =>
+      level == 0 ? baseHeatPerSecond : baseHeatPerSecond * level;
+  double get heatRate => currentHeatPerSecond;
 
   /// Calculates the total trust generated per second.
   double get currentTrustPerSecond => baseTrustPerSecond * level;

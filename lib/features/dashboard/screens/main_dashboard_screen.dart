@@ -186,7 +186,7 @@ class _HomeTab extends StatelessWidget {
                     ),
                     padding: const EdgeInsets.all(4),
                     child: const ScamIcon(
-                      assetPath: AppAssets.logoScamInc,
+                      assetPath: AppAssets.appIconMain,
                       size: 32,
                     ),
                   ),

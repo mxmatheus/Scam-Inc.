@@ -21,22 +21,32 @@ class UpgradeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final isPurchased = upgrade.isPurchased;
     final canAfford = currentCoins >= upgrade.cost;
 
     return ScamCard(
       padding: const EdgeInsets.all(12.0),
-      backgroundColor: isPurchased ? AppColors.surfaceMuted : AppColors.surface,
+      backgroundColor: isPurchased
+          ? (isDark ? AppColors.darkSurfaceMuted : AppColors.surfaceMuted)
+          : (isDark ? AppColors.darkSurface : AppColors.surface),
+      borderColor: isPurchased
+          ? (isDark ? AppColors.darkBorder : AppColors.border)
+          : (isDark ? AppColors.darkBorder : AppColors.border),
       child: Row(
         children: [
           Container(
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: isPurchased ? AppColors.surface : AppColors.sCoinsBg,
+              color: isPurchased
+                  ? (isDark ? AppColors.darkSurface : AppColors.surface)
+                  : (isDark ? AppColors.darkSCoinsBg : AppColors.sCoinsBg),
               borderRadius: BorderRadius.circular(AppRadius.md),
               border: Border.all(
-                color: isPurchased ? AppColors.border : AppColors.sCoins,
+                color: isPurchased
+                    ? (isDark ? AppColors.darkBorder : AppColors.border)
+                    : AppColors.sCoins,
                 width: 1.5,
               ),
             ),

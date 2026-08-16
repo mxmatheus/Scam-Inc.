@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../app/theme.dart';
 
-/// Reusable modern corporate card container.
+/// Reusable modern corporate card container with dynamic Dark/Light theme adaptability.
 class ScamCard extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry? padding;
@@ -24,14 +24,20 @@ class ScamCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final resolvedBg =
+        backgroundColor ?? (isDark ? AppColors.darkSurface : AppColors.surface);
+    final resolvedBorder =
+        borderColor ?? (isDark ? AppColors.darkBorder : AppColors.border);
+
     return Container(
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: backgroundColor ?? AppColors.surface,
+        color: resolvedBg,
         borderRadius: BorderRadius.circular(AppRadius.lg),
-        border: Border.all(color: borderColor ?? AppColors.border, width: 1.5),
-        boxShadow: AppShadows.card,
+        border: Border.all(color: resolvedBorder, width: 1.5),
+        boxShadow: isDark ? null : AppShadows.card,
       ),
       child: Material(
         color: Colors.transparent,

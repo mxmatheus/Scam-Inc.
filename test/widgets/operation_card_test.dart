@@ -73,7 +73,7 @@ void main() {
       );
 
       expect(find.text('Crypto Pump Room'), findsOneWidget);
-      expect(find.text('LOCKED — Reach 20 Trust to operate'), findsOneWidget);
+      expect(find.text('Requires 20 Trust Points'), findsOneWidget);
     });
   });
 }
