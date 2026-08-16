@@ -81,7 +81,10 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                         decoration: BoxDecoration(
                           color: AppColors.surface,
                           borderRadius: BorderRadius.circular(AppRadius.md),
-                          border: Border.all(color: AppColors.border, width: 1.5),
+                          border: Border.all(
+                            color: AppColors.border,
+                            width: 1.5,
+                          ),
                         ),
                         padding: const EdgeInsets.all(4),
                         child: const ScamIcon(
@@ -95,7 +98,8 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                         children: [
                           Text(
                             GameConstants.appName,
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            style: Theme.of(context).textTheme.titleLarge
+                                ?.copyWith(
                                   letterSpacing: -0.5,
                                   color: AppColors.textPrimary,
                                 ),
@@ -115,7 +119,10 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                       border: Border.all(color: AppColors.border, width: 1.5),
                     ),
                     child: IconButton(
-                      icon: const ScamIcon(assetPath: AppAssets.coreSettings, size: 20),
+                      icon: const ScamIcon(
+                        assetPath: AppAssets.coreSettings,
+                        size: 20,
+                      ),
                       onPressed: () {},
                     ),
                   ),
@@ -131,14 +138,15 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                   children: [
                     Text(
                       'TOTAL REVENUE',
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            letterSpacing: 1.2,
-                          ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.labelSmall?.copyWith(letterSpacing: 1.2),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       NumberFormatter.formatCurrency(_coins),
-                      style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                      style: Theme.of(context).textTheme.headlineLarge
+                          ?.copyWith(
                             fontSize: 36,
                             fontWeight: FontWeight.w900,
                             color: AppColors.sCoinsDark,
@@ -146,7 +154,10 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                     ),
                     const SizedBox(height: 4),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.sCoinsBg,
                         borderRadius: BorderRadius.circular(AppRadius.pill),
@@ -154,9 +165,9 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                       child: Text(
                         NumberFormatter.formatRate(_incomePerSec),
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              color: AppColors.sCoinsDark,
-                              fontWeight: FontWeight.w700,
-                            ),
+                          color: AppColors.sCoinsDark,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                   ],
@@ -178,13 +189,13 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                             children: [
                               Text(
                                 'TRUST',
-                                style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                      color: AppColors.trustDark,
-                                    ),
+                                style: Theme.of(context).textTheme.labelSmall
+                                    ?.copyWith(color: AppColors.trustDark),
                               ),
                               Text(
                                 '${_trust.toInt()} PTS',
-                                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                style: Theme.of(context).textTheme.labelSmall
+                                    ?.copyWith(
                                       fontWeight: FontWeight.w800,
                                       color: AppColors.textPrimary,
                                     ),
@@ -213,13 +224,13 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                             children: [
                               Text(
                                 'HEAT',
-                                style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                      color: AppColors.heatDark,
-                                    ),
+                                style: Theme.of(context).textTheme.labelSmall
+                                    ?.copyWith(color: AppColors.heatDark),
                               ),
                               Text(
                                 '${_heat.toInt()}%',
-                                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                style: Theme.of(context).textTheme.labelSmall
+                                    ?.copyWith(
                                       fontWeight: FontWeight.w800,
                                       color: AppColors.textPrimary,
                                     ),
@@ -229,7 +240,9 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                           const SizedBox(height: 8),
                           ProgressBar(
                             progress: _heat / 100.0,
-                            fillColor: _heat > 60 ? AppColors.heatDanger : AppColors.heat,
+                            fillColor: _heat > 60
+                                ? AppColors.heatDanger
+                                : AppColors.heat,
                             height: 6,
                           ),
                         ],
@@ -268,7 +281,8 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                       const SizedBox(height: 12),
                       Text(
                         'LAUNCH CAMPAIGN',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
                               fontWeight: FontWeight.w800,
                               letterSpacing: 0.5,
                             ),
@@ -314,14 +328,16 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                         children: [
                           Text(
                             'Fake Delivery SMS',
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w700,
                                 ),
                           ),
                           Text(
                             'Level $_fakeSmsLevel • +${NumberFormatter.formatCurrency(_fakeSmsLevel * 0.5)}/s',
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(
                                   fontSize: 12,
                                   color: AppColors.sCoinsDark,
                                   fontWeight: FontWeight.w600,
@@ -331,10 +347,17 @@ class _ScamBootstrapScreenState extends State<ScamBootstrapScreen> {
                       ),
                     ),
                     ScamButton(
-                      label: _fakeSmsLevel == 0 ? 'Buy (${NumberFormatter.formatCurrency(nextCost)})' : 'Upgrade (${NumberFormatter.formatCurrency(nextCost)})',
+                      label: _fakeSmsLevel == 0
+                          ? 'Buy (${NumberFormatter.formatCurrency(nextCost)})'
+                          : 'Upgrade (${NumberFormatter.formatCurrency(nextCost)})',
                       onPressed: canUpgrade ? _buyFakeSms : null,
-                      variant: canUpgrade ? ScamButtonVariant.success : ScamButtonVariant.secondary,
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      variant: canUpgrade
+                          ? ScamButtonVariant.success
+                          : ScamButtonVariant.secondary,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
                     ),
                   ],
                 ),

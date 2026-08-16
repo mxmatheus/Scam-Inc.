@@ -3,14 +3,14 @@
     "columns": 3,
     "rows": 2,
     "output": "assets/branding",
-    "prefix": "",
+    "prefix": "logo_",
     "names": [
-      "logo_primary",
-      "logo_dark",
-      "logo_monochrome",
-      "logo_badge",
-      "logo_icon",
-      "logo_text"
+      "primary",
+      "badge",
+      "dark",
+      "icon",
+      "text",
+      "monochrome"
     ]
   },
   "app_icon.png": {
@@ -45,7 +45,7 @@
     "prefix": "res_",
     "names": [
       "s_coins", "trust_points", "heat_meter", "laundered_cash",
-      "gems", "reputation", "influence", "offshore_token"
+      "gems", "influence", "retainer_shield", "offshore_passport"
     ]
   },
   "operation_icon_sprite_sheet.png": {
@@ -120,35 +120,38 @@
   },
   "event_illustration_sprite_sheet.png": {
     "columns": 2,
-    "rows": 3,
+    "rows": 4,
     "output": "assets/illustrations/events",
     "prefix": "event_",
     "names": [
       "journalist_investigation", "viral_trend",
       "server_raid", "influencer_collab",
-      "bank_freeze", "offshore_opportunity"
+      "bank_freeze", "whistleblower_leak",
+      "system_blackout", "offshore_opportunity"
     ]
   },
   "prestige_sprite_sheet.png": {
     "columns": 2,
-    "rows": 3,
+    "rows": 4,
     "output": "assets/illustrations/prestige",
     "prefix": "prestige_",
     "names": [
       "private_jet", "yacht_escape",
-      "swiss_vault", "tropical_resort",
-      "satellite_network", "shadow_corporation"
+      "tropical_resort", "swiss_vault",
+      "satellite_network", "golden_parachute",
+      "offshore_holding_co", "shadow_syndicate_hq"
     ]
   },
   "tutorial_sprite_sheet.png": {
     "columns": 2,
-    "rows": 3,
+    "rows": 4,
     "output": "assets/illustrations/tutorial",
     "prefix": "tut_",
     "names": [
       "tap_to_earn", "manage_operations",
       "watch_heat", "earn_trust",
-      "escape_prestige", "spot_red_flags"
+      "suspicious_chat", "spot_red_flags",
+      "escape_prestige", "skill_tree_growth"
     ]
   }
 }
