@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 /// SCAM INC. — Visual Design System & Theme Tokens
-/// Clean modern corporate satire aesthetic (SaaS dashboard style).
+/// Clean modern corporate satire aesthetic with full Light & Dark mode support.
 abstract class AppColors {
-  // Surface & Neutral Colors
+  // Light Palette
   static const Color background = Color(0xFFF8FAFC); // Slate-50
   static const Color surface = Color(0xFFFFFFFF); // Pure white
   static const Color surfaceMuted = Color(0xFFF1F5F9); // Slate-100
@@ -12,28 +12,45 @@ abstract class AppColors {
   static const Color border = Color(0xFFE2E8F0); // Slate-200
   static const Color borderDark = Color(0xFFCBD5E1); // Slate-300
 
-  // Text Hierarchy
+  // Dark Palette
+  static const Color darkBackground = Color(0xFF090D16); // Ultra Dark Slate
+  static const Color darkSurface = Color(0xFF121A29); // Deep Slate Navy
+  static const Color darkSurfaceMuted = Color(0xFF1A2438); // Medium Dark Slate
+  static const Color darkSurfaceHover = Color(0xFF24324B); // Hover Dark Slate
+  static const Color darkBorder = Color(0xFF24324B); // Slate-700
+  static const Color darkBorderHighlight = Color(0xFF334155);
+
+  // Text Hierarchy (Light)
   static const Color textPrimary = Color(0xFF0F172A); // Slate-900
   static const Color textSecondary = Color(0xFF475569); // Slate-600
   static const Color textMuted = Color(0xFF94A3B8); // Slate-400
+
+  // Text Hierarchy (Dark)
+  static const Color darkTextPrimary = Color(0xFFF8FAFC); // Slate-50
+  static const Color darkTextSecondary = Color(0xFF94A3B8); // Slate-400
+  static const Color darkTextMuted = Color(0xFF64748B); // Slate-500
 
   // Brand / Semantic Resource Colors
   static const Color sCoins = Color(0xFF10B981); // Emerald-500
   static const Color sCoinsDark = Color(0xFF059669); // Emerald-600
   static const Color sCoinsBg = Color(0xFFECFDF5); // Emerald-50
+  static const Color darkSCoinsBg = Color(0xFF064E3B); // Emerald-900
 
   static const Color trust = Color(0xFF3B82F6); // Blue-500
   static const Color trustDark = Color(0xFF2563EB); // Blue-600
   static const Color trustBg = Color(0xFFEFF6FF); // Blue-50
+  static const Color darkTrustBg = Color(0xFF1E3A8A); // Blue-900
 
   static const Color heat = Color(0xFFF97316); // Orange-500
   static const Color heatDanger = Color(0xFFEF4444); // Red-500
   static const Color heatDark = Color(0xFFDC2626); // Red-600
   static const Color heatBg = Color(0xFFFFF7ED); // Orange-50
+  static const Color darkHeatBg = Color(0xFF7C2D12); // Orange-900
 
   static const Color launderedCash = Color(0xFF8B5CF6); // Violet-500
   static const Color launderedCashDark = Color(0xFF7C3AED); // Violet-600
   static const Color launderedCashBg = Color(0xFFF5F3FF); // Violet-50
+  static const Color darkLaunderedCashBg = Color(0xFF4C1D95); // Violet-900
 
   static const Color corporateNavy = Color(0xFF1E293B); // Slate-800
   static const Color corporateGold = Color(0xFFF59E0B); // Amber-500
@@ -72,6 +89,7 @@ abstract class AppShadows {
 
 class AppTheme {
   static final ThemeData lightTheme = _buildLightTheme();
+  static final ThemeData darkTheme = _buildDarkTheme();
 
   static ThemeData _buildLightTheme() {
     final baseTextTheme = GoogleFonts.interTextTheme();
@@ -126,6 +144,64 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.lg),
           side: const BorderSide(color: AppColors.border, width: 1.5),
+        ),
+      ),
+    );
+  }
+
+  static ThemeData _buildDarkTheme() {
+    final baseTextTheme = GoogleFonts.interTextTheme();
+
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      scaffoldBackgroundColor: AppColors.darkBackground,
+      colorScheme: const ColorScheme.dark(
+        primary: AppColors.sCoins,
+        secondary: AppColors.launderedCash,
+        surface: AppColors.darkSurface,
+        error: AppColors.heatDanger,
+        onPrimary: Colors.black,
+        onSurface: AppColors.darkTextPrimary,
+      ),
+      textTheme: baseTextTheme.copyWith(
+        headlineLarge: baseTextTheme.headlineLarge?.copyWith(
+          color: AppColors.darkTextPrimary,
+          fontWeight: FontWeight.w800,
+          letterSpacing: -0.5,
+        ),
+        headlineMedium: baseTextTheme.headlineMedium?.copyWith(
+          color: AppColors.darkTextPrimary,
+          fontWeight: FontWeight.w700,
+          letterSpacing: -0.5,
+        ),
+        titleLarge: baseTextTheme.titleLarge?.copyWith(
+          color: AppColors.darkTextPrimary,
+          fontWeight: FontWeight.w700,
+        ),
+        titleMedium: baseTextTheme.titleMedium?.copyWith(
+          color: AppColors.darkTextPrimary,
+          fontWeight: FontWeight.w600,
+        ),
+        bodyLarge: baseTextTheme.bodyLarge?.copyWith(
+          color: AppColors.darkTextPrimary,
+          fontWeight: FontWeight.w500,
+        ),
+        bodyMedium: baseTextTheme.bodyMedium?.copyWith(
+          color: AppColors.darkTextSecondary,
+        ),
+        labelSmall: baseTextTheme.labelSmall?.copyWith(
+          color: AppColors.darkTextMuted,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.5,
+        ),
+      ),
+      cardTheme: CardThemeData(
+        color: AppColors.darkSurface,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+          side: const BorderSide(color: AppColors.darkBorder, width: 1.5),
         ),
       ),
     );

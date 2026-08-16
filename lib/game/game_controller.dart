@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/player_save.dart';
 import '../models/operation.dart';
 import '../models/upgrade.dart';
+import '../models/prestige_skill.dart';
 import '../models/game_event.dart';
 import '../models/event_choice.dart';
 import '../data/repositories/save_repository.dart';
@@ -12,6 +13,7 @@ import '../services/heat_service.dart';
 import '../services/trust_service.dart';
 import '../services/offline_income_service.dart';
 import '../services/event_service.dart';
+import '../services/prestige_service.dart';
 import '../services/game_clock_service.dart';
 
 /// Central Game State Controller managing active progression, tick events, and persistence.
@@ -22,6 +24,7 @@ class GameController extends StateNotifier<PlayerSave> {
   final TrustService _trustService;
   final OfflineIncomeService _offlineIncomeService;
   final EventService _eventService;
+  final PrestigeService _prestigeService;
   final GameClockService _gameClock;
   Timer? _autoSaveTimer;
 
@@ -38,6 +41,7 @@ class GameController extends StateNotifier<PlayerSave> {
     required TrustService trustService,
     required OfflineIncomeService offlineIncomeService,
     required EventService eventService,
+    required PrestigeService prestigeService,
     required GameClockService gameClock,
     PlayerSave? initialSave,
   }) : _saveRepository = saveRepository,
@@ -46,6 +50,7 @@ class GameController extends StateNotifier<PlayerSave> {
        _trustService = trustService,
        _offlineIncomeService = offlineIncomeService,
        _eventService = eventService,
+       _prestigeService = prestigeService,
        _gameClock = gameClock,
        super(
          initialSave ??
@@ -198,6 +203,35 @@ class GameController extends StateNotifier<PlayerSave> {
     return true;
   }
 
+  /// Purchases a permanent Prestige skill using Laundered Cash.
+  bool buyPrestigeSkill(String skillId) {
+    final skillIndex = state.prestigeSkills.indexWhere((s) => s.id == skillId);
+    if (skillIndex == -1) return false;
+
+    final skill = state.prestigeSkills[skillIndex];
+    if (skill.level >= skill.maxLevel) return false;
+
+    final cost = skill.calculateCost();
+    if (state.playerState.launderedCash < cost) return false;
+
+    final updatedSkill = skill.copyWith(level: skill.level + 1);
+    final updatedSkills = List<PrestigeSkill>.from(state.prestigeSkills);
+    updatedSkills[skillIndex] = updatedSkill;
+
+    final updatedPlayerState = state.playerState.copyWith(
+      launderedCash: state.playerState.launderedCash - cost,
+      lastActiveTimestamp: DateTime.now(),
+    );
+
+    state = state.copyWith(
+      playerState: updatedPlayerState,
+      prestigeSkills: updatedSkills,
+    );
+
+    saveGame();
+    return true;
+  }
+
   /// Bribes police/investigators to cool down Heat.
   bool bribePolice() {
     final currentHeat = state.playerState.heat;
@@ -226,6 +260,37 @@ class GameController extends StateNotifier<PlayerSave> {
     );
 
     state = state.copyWith(playerState: updatedPlayerState);
+    return true;
+  }
+
+  /// Executes an offshore escape prestige reset transaction.
+  bool executePrestigeReset() {
+    final eval = _prestigeService.evaluatePrestigeEligibility(
+      state.playerState,
+    );
+    if (!eval.isEligible) return false;
+
+    final updatedPlayerState = state.playerState.copyWith(
+      coins: 0.0,
+      heat: 0.0,
+      trust: 0.0,
+      launderedCash: state.playerState.launderedCash + eval.launderableCash,
+      prestigeLevel: state.playerState.prestigeLevel + 1,
+      prestigeMultiplier: eval.newPrestigeMultiplier,
+      lastActiveTimestamp: DateTime.now(),
+    );
+
+    // Reset operations and upgrades back to baseline seeds
+    final resetOperations = GameSeeds.getInitialOperations();
+    final resetUpgrades = GameSeeds.getInitialUpgrades();
+
+    state = state.copyWith(
+      playerState: updatedPlayerState,
+      operations: resetOperations,
+      upgrades: resetUpgrades,
+    );
+
+    saveGame();
     return true;
   }
 

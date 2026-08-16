@@ -6,6 +6,7 @@ import 'package:scam_inc/services/heat_service.dart';
 import 'package:scam_inc/services/trust_service.dart';
 import 'package:scam_inc/services/offline_income_service.dart';
 import 'package:scam_inc/services/event_service.dart';
+import 'package:scam_inc/services/prestige_service.dart';
 import 'package:scam_inc/services/game_clock_service.dart';
 import 'package:scam_inc/game/game_controller.dart';
 
@@ -20,6 +21,7 @@ void main() {
     late TrustService trustService;
     late OfflineIncomeService offlineIncomeService;
     late EventService eventService;
+    late PrestigeService prestigeService;
     late GameClockService gameClock;
     late GameController controller;
 
@@ -31,6 +33,7 @@ void main() {
       trustService = const TrustService();
       offlineIncomeService = const OfflineIncomeService();
       eventService = const EventService();
+      prestigeService = const PrestigeService();
       gameClock = GameClockService();
 
       controller = GameController(
@@ -40,6 +43,7 @@ void main() {
         trustService: trustService,
         offlineIncomeService: offlineIncomeService,
         eventService: eventService,
+        prestigeService: prestigeService,
         gameClock: gameClock,
       );
     });

@@ -11,7 +11,9 @@ import '../heat_service.dart';
 import '../trust_service.dart';
 import '../offline_income_service.dart';
 import '../event_service.dart';
+import '../prestige_service.dart';
 import '../../features/minigames/services/chat_minigame_service.dart';
+import '../../features/minigames/services/scam_baiter_service.dart';
 import '../../game/game_controller.dart';
 
 /// Provider for pure [EconomyService].
@@ -40,9 +42,19 @@ final eventServiceProvider = Provider<EventService>((ref) {
   return const EventService();
 });
 
+/// Provider for [PrestigeService].
+final prestigeServiceProvider = Provider<PrestigeService>((ref) {
+  return const PrestigeService();
+});
+
 /// Provider for [ChatMinigameService].
 final chatMinigameServiceProvider = Provider<ChatMinigameService>((ref) {
   return ChatMinigameService();
+});
+
+/// Provider for [ScamBaiterService].
+final scamBaiterServiceProvider = Provider<ScamBaiterService>((ref) {
+  return ScamBaiterService();
 });
 
 /// Provider for singleton [GameClockService].
@@ -63,6 +75,7 @@ final gameControllerProvider =
       final trustService = ref.watch(trustServiceProvider);
       final offlineIncomeService = ref.watch(offlineIncomeServiceProvider);
       final eventService = ref.watch(eventServiceProvider);
+      final prestigeService = ref.watch(prestigeServiceProvider);
       final gameClock = ref.watch(gameClockServiceProvider);
 
       return GameController(
@@ -72,6 +85,7 @@ final gameControllerProvider =
         trustService: trustService,
         offlineIncomeService: offlineIncomeService,
         eventService: eventService,
+        prestigeService: prestigeService,
         gameClock: gameClock,
       );
     });

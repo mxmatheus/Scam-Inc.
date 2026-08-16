@@ -12,10 +12,13 @@ import '../../../core/widgets/section_header.dart';
 import '../../../core/widgets/operation_card.dart';
 import '../../../core/widgets/offline_summary_dialog.dart';
 import '../../../core/widgets/event_decision_modal.dart';
+import '../../../data/providers/repository_providers.dart';
 import '../../../services/providers/service_providers.dart';
 import '../../../services/heat_service.dart';
 import '../../operations/screens/operations_screen.dart';
+import '../../prestige/screens/prestige_screen.dart';
 import '../../minigames/screens/suspicious_chat_screen.dart';
+import '../../minigames/screens/scam_baiter_screen.dart';
 
 class MainDashboardScreen extends ConsumerStatefulWidget {
   const MainDashboardScreen({super.key});
@@ -61,12 +64,19 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(child: _buildActiveTab()),
       bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          color: AppColors.surface,
-          border: Border(top: BorderSide(color: AppColors.border, width: 1.5)),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardTheme.color,
+          border: Border(
+            top: BorderSide(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? AppColors.darkBorder
+                  : AppColors.border,
+              width: 1.5,
+            ),
+          ),
         ),
         child: NavigationBar(
           selectedIndex: _selectedTabIndex,
@@ -75,8 +85,10 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
               _selectedTabIndex = idx;
             });
           },
-          backgroundColor: AppColors.surface,
-          indicatorColor: AppColors.sCoinsBg,
+          backgroundColor: Theme.of(context).cardTheme.color,
+          indicatorColor: Theme.of(context).brightness == Brightness.dark
+              ? AppColors.darkSCoinsBg
+              : AppColors.sCoinsBg,
           destinations: const [
             NavigationDestination(
               icon: ScamIcon(assetPath: AppAssets.coreCashBriefcase, size: 22),
@@ -128,7 +140,7 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
       case 2:
         return const _EventsTab();
       case 3:
-        return const _PrestigeTab();
+        return const PrestigeScreen();
       case 4:
         return const _SettingsTab();
       default:
@@ -147,6 +159,8 @@ class _HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
       child: Column(
@@ -161,9 +175,12 @@ class _HomeTab extends StatelessWidget {
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: AppColors.surface,
+                      color: Theme.of(context).cardTheme.color,
                       borderRadius: BorderRadius.circular(AppRadius.md),
-                      border: Border.all(color: AppColors.border, width: 1.5),
+                      border: Border.all(
+                        color: isDark ? AppColors.darkBorder : AppColors.border,
+                        width: 1.5,
+                      ),
                     ),
                     padding: const EdgeInsets.all(4),
                     child: const ScamIcon(
@@ -177,10 +194,9 @@ class _HomeTab extends StatelessWidget {
                     children: [
                       Text(
                         GameConstants.appName,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          letterSpacing: -0.5,
-                          color: AppColors.textPrimary,
-                        ),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.titleLarge?.copyWith(letterSpacing: -0.5),
                       ),
                       Text(
                         GameConstants.appTagline,
@@ -226,9 +242,9 @@ class _RevenueOverviewCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final coins = ref.watch(playerStateProvider.select((s) => s.coins));
     final incomePerSec = ref.watch(incomePerSecondProvider);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return ScamCard(
-      backgroundColor: AppColors.surface,
       padding: const EdgeInsets.all(20.0),
       child: Column(
         children: [
@@ -244,20 +260,20 @@ class _RevenueOverviewCard extends ConsumerWidget {
             style: Theme.of(context).textTheme.headlineLarge?.copyWith(
               fontSize: 36,
               fontWeight: FontWeight.w900,
-              color: AppColors.sCoinsDark,
+              color: AppColors.sCoins,
             ),
           ),
           const SizedBox(height: 6),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             decoration: BoxDecoration(
-              color: AppColors.sCoinsBg,
+              color: isDark ? AppColors.darkSCoinsBg : AppColors.sCoinsBg,
               borderRadius: BorderRadius.circular(AppRadius.pill),
             ),
             child: Text(
               NumberFormatter.formatRate(incomePerSec),
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: AppColors.sCoinsDark,
+                color: AppColors.sCoins,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -290,15 +306,14 @@ class _TrustHeatMeters extends ConsumerWidget {
                   children: [
                     Text(
                       'TRUST',
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: AppColors.trustDark,
-                      ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.labelSmall?.copyWith(color: AppColors.trust),
                     ),
                     Text(
                       '${trust.toInt()} PTS',
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         fontWeight: FontWeight.w800,
-                        color: AppColors.textPrimary,
                       ),
                     ),
                   ],
@@ -325,15 +340,14 @@ class _TrustHeatMeters extends ConsumerWidget {
                   children: [
                     Text(
                       'HEAT',
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: AppColors.heatDark,
-                      ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.labelSmall?.copyWith(color: AppColors.heat),
                     ),
                     Text(
                       '${heat.toInt()}%',
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         fontWeight: FontWeight.w800,
-                        color: AppColors.textPrimary,
                       ),
                     ),
                   ],
@@ -415,11 +429,12 @@ class _CampaignTapCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return ScamCard(
       onTap: () {
         ref.read(gameControllerProvider.notifier).tap();
       },
-      backgroundColor: AppColors.surface,
       padding: const EdgeInsets.symmetric(vertical: 28.0),
       child: Center(
         child: Column(
@@ -431,7 +446,7 @@ class _CampaignTapCard extends ConsumerWidget {
               height: 76,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.sCoinsBg,
+                color: isDark ? AppColors.darkSCoinsBg : AppColors.sCoinsBg,
                 border: Border.all(color: AppColors.sCoins, width: 2),
               ),
               child: const Center(
@@ -553,6 +568,8 @@ class _EventsTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
       child: Column(
@@ -573,9 +590,9 @@ class _EventsTab extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
 
-          // Mini-Game Banner Card
+          // Mini-Game 1: Suspicious Chat
           ScamCard(
-            backgroundColor: AppColors.trustBg,
+            backgroundColor: isDark ? AppColors.darkTrustBg : AppColors.trustBg,
             borderColor: AppColors.trust,
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -586,7 +603,7 @@ class _EventsTab extends ConsumerWidget {
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: isDark ? AppColors.darkSurface : Colors.white,
                         borderRadius: BorderRadius.circular(AppRadius.md),
                       ),
                       child: const ScamIcon(
@@ -605,13 +622,17 @@ class _EventsTab extends ConsumerWidget {
                                 ?.copyWith(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w800,
-                                  color: AppColors.trustDark,
+                                  color: AppColors.trust,
                                 ),
                           ),
                           Text(
                             'Practice identifying social engineering red flags for bonus S-Coins & Trust.',
                             style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(color: AppColors.textPrimary),
+                                ?.copyWith(
+                                  color: isDark
+                                      ? AppColors.darkTextPrimary
+                                      : AppColors.textPrimary,
+                                ),
                           ),
                         ],
                       ),
@@ -629,6 +650,74 @@ class _EventsTab extends ConsumerWidget {
                     );
                   },
                   variant: ScamButtonVariant.primary,
+                  isFullWidth: true,
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 14),
+
+          // Mini-Game 2: Scam Baiter
+          ScamCard(
+            backgroundColor: isDark ? AppColors.darkHeatBg : AppColors.heatBg,
+            borderColor: AppColors.heat,
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: isDark ? AppColors.darkSurface : Colors.white,
+                        borderRadius: BorderRadius.circular(AppRadius.md),
+                      ),
+                      child: const ScamIcon(
+                        assetPath: AppAssets.chatDarkwebContact,
+                        size: 28,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'SCAM BAITER DRILL',
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w800,
+                                  color: AppColors.heat,
+                                ),
+                          ),
+                          Text(
+                            'Quick reaction: Inspect suspicious profiles and disconnect before extortion!',
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  color: isDark
+                                      ? AppColors.darkTextPrimary
+                                      : AppColors.textPrimary,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 14),
+                ScamButton(
+                  label: 'START SCAM BAITER (+7.5K S-Coins)',
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const ScamBaiterScreen(),
+                      ),
+                    );
+                  },
+                  variant: ScamButtonVariant.danger,
                   isFullWidth: true,
                   padding: const EdgeInsets.symmetric(vertical: 10),
                 ),
@@ -683,133 +772,7 @@ class _EventsTab extends ConsumerWidget {
 }
 
 // ==========================================
-// TAB 3: PRESTIGE / ESCAPE
-// ==========================================
-class _PrestigeTab extends ConsumerWidget {
-  const _PrestigeTab();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final playerState = ref.watch(playerStateProvider);
-    final prestigeSkills = ref.watch(prestigeSkillsProvider);
-
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            'Offshore Prestige',
-            style: Theme.of(
-              context,
-            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'Launder cash, escape the feds, and purchase permanent empire skills.',
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: AppColors.textSecondary),
-          ),
-          const SizedBox(height: 16),
-
-          ScamCard(
-            backgroundColor: AppColors.surface,
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                const ScamIcon(
-                  assetPath: AppAssets.resOffshoreVipCrown,
-                  size: 48,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'LAUNDERED CASH BALANCE',
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    letterSpacing: 1.0,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  '${playerState.launderedCash.toInt()} LC',
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.w900,
-                    color: AppColors.launderedCash,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  'Prestige Level: ${playerState.prestigeLevel} (${playerState.prestigeMultiplier}x Global Multiplier)',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-
-          const SectionHeader(
-            title: 'Prestige Skill Tree',
-            subtitle: 'Permanent Empire Perks',
-          ),
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: prestigeSkills.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 8),
-            itemBuilder: (context, idx) {
-              final skill = prestigeSkills[idx];
-              return ScamCard(
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 44,
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: AppColors.launderedCashBg,
-                        borderRadius: BorderRadius.circular(AppRadius.md),
-                        border: Border.all(color: AppColors.launderedCash),
-                      ),
-                      padding: const EdgeInsets.all(6),
-                      child: ScamIcon(assetPath: skill.iconPath, size: 28),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            skill.name,
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                          ),
-                          Text(
-                            '${skill.description} (Lv. ${skill.level}/${skill.maxLevel})',
-                            style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(color: AppColors.textSecondary),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ==========================================
-// TAB 4: SETTINGS & STATS
+// TAB 4: SETTINGS & STATS (WITH DARK MODE TOGGLE)
 // ==========================================
 class _SettingsTab extends ConsumerWidget {
   const _SettingsTab();
@@ -817,6 +780,7 @@ class _SettingsTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final playerState = ref.watch(playerStateProvider);
+    final settings = ref.watch(settingsStateProvider);
 
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
@@ -831,6 +795,87 @@ class _SettingsTab extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
 
+          // Appearance & Preferences
+          ScamCard(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'APPEARANCE & SOUND',
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                const Divider(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          settings.isDarkMode
+                              ? Icons.dark_mode
+                              : Icons.light_mode,
+                          size: 20,
+                          color: AppColors.sCoins,
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          'Dark Mode (Karanlık Tema)',
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ),
+                    Switch(
+                      value: settings.isDarkMode,
+                      activeColor: AppColors.sCoins,
+                      onChanged: (val) {
+                        ref
+                            .read(settingsControllerProvider.notifier)
+                            .toggleDarkMode(val);
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.volume_up,
+                          size: 20,
+                          color: AppColors.trust,
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          'Sound Effects',
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ),
+                    Switch(
+                      value: settings.soundEnabled,
+                      activeColor: AppColors.trust,
+                      onChanged: (val) {
+                        ref
+                            .read(settingsControllerProvider.notifier)
+                            .toggleSound(val);
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Executive Dossier
           ScamCard(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -869,6 +914,7 @@ class _SettingsTab extends ConsumerWidget {
           ),
           const SizedBox(height: 20),
 
+          // Danger Zone
           ScamCard(
             borderColor: AppColors.heatDanger,
             padding: const EdgeInsets.all(16.0),
@@ -914,10 +960,9 @@ class _SettingsTab extends ConsumerWidget {
         Text(label, style: Theme.of(context).textTheme.bodyMedium),
         Text(
           value,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w800,
-            color: AppColors.textPrimary,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w800),
         ),
       ],
     );

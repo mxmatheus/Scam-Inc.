@@ -37,6 +37,9 @@ class PrestigeSkill {
     return baseCost * math.pow(costMultiplier, level);
   }
 
+  /// Calculates upgrade cost in Laundered Cash.
+  double calculateCost() => nextUpgradeCost;
+
   /// Current cumulative bonus value (e.g. 0.25 for +25%).
   double get currentBonusValue => level * effectValuePerLevel;
 

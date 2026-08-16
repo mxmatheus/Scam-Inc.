@@ -5,7 +5,6 @@ import '../../../app/theme.dart';
 import '../../../core/utils/number_formatter.dart';
 import '../../../core/widgets/scam_button.dart';
 import '../../../core/widgets/scam_card.dart';
-import '../../../core/widgets/scam_icon.dart';
 import '../../../services/providers/service_providers.dart';
 import '../models/chat_scenario.dart';
 import '../services/chat_minigame_service.dart';

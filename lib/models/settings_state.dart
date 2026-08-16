@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 /// Represents local player settings and preferences.
 @immutable
 class SettingsState {
+  final bool isDarkMode;
   final bool soundEnabled;
   final bool musicEnabled;
   final bool hapticsEnabled;
@@ -11,6 +12,7 @@ class SettingsState {
   final String languageCode;
 
   const SettingsState({
+    this.isDarkMode = true,
     this.soundEnabled = true,
     this.musicEnabled = true,
     this.hapticsEnabled = true,
@@ -20,6 +22,7 @@ class SettingsState {
   });
 
   SettingsState copyWith({
+    bool? isDarkMode,
     bool? soundEnabled,
     bool? musicEnabled,
     bool? hapticsEnabled,
@@ -28,6 +31,7 @@ class SettingsState {
     String? languageCode,
   }) {
     return SettingsState(
+      isDarkMode: isDarkMode ?? this.isDarkMode,
       soundEnabled: soundEnabled ?? this.soundEnabled,
       musicEnabled: musicEnabled ?? this.musicEnabled,
       hapticsEnabled: hapticsEnabled ?? this.hapticsEnabled,
@@ -39,6 +43,7 @@ class SettingsState {
 
   Map<String, dynamic> toJson() {
     return {
+      'isDarkMode': isDarkMode,
       'soundEnabled': soundEnabled,
       'musicEnabled': musicEnabled,
       'hapticsEnabled': hapticsEnabled,
@@ -50,6 +55,7 @@ class SettingsState {
 
   factory SettingsState.fromJson(Map<String, dynamic> json) {
     return SettingsState(
+      isDarkMode: json['isDarkMode'] as bool? ?? true,
       soundEnabled: json['soundEnabled'] as bool? ?? true,
       musicEnabled: json['musicEnabled'] as bool? ?? true,
       hapticsEnabled: json['hapticsEnabled'] as bool? ?? true,
@@ -64,6 +70,7 @@ class SettingsState {
       identical(this, other) ||
       other is SettingsState &&
           runtimeType == other.runtimeType &&
+          isDarkMode == other.isDarkMode &&
           soundEnabled == other.soundEnabled &&
           musicEnabled == other.musicEnabled &&
           hapticsEnabled == other.hapticsEnabled &&
@@ -73,6 +80,7 @@ class SettingsState {
 
   @override
   int get hashCode =>
+      isDarkMode.hashCode ^
       soundEnabled.hashCode ^
       musicEnabled.hashCode ^
       hapticsEnabled.hashCode ^

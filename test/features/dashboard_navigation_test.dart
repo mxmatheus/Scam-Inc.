@@ -36,13 +36,14 @@ void main() {
     // Tap Prestige Tab
     await tester.tap(find.text('Prestige'));
     await tester.pumpAndSettle();
-    expect(find.text('Offshore Prestige'), findsOneWidget);
+    expect(find.text('Offshore Syndicate'), findsOneWidget);
     expect(find.text('LAUNDERED CASH BALANCE'), findsOneWidget);
 
     // Tap Settings Tab
     await tester.tap(find.text('Settings'));
     await tester.pumpAndSettle();
     expect(find.text('Settings & Statistics'), findsOneWidget);
+    expect(find.text('Dark Mode (Karanlık Tema)'), findsOneWidget);
     expect(find.text('SHRED ALL EVIDENCE'), findsOneWidget);
   });
 }

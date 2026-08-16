@@ -43,7 +43,7 @@ class EventDecisionModal extends StatelessWidget {
                   height: 140,
                   width: double.infinity,
                   fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Container(
+                  errorBuilder: (context, error, stackTrace) => Container(
                     height: 140,
                     color: AppColors.surfaceMuted,
                     child: const Icon(Icons.emergency_outlined, size: 48),
