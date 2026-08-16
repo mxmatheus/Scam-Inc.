@@ -10,10 +10,12 @@ import '../../../core/widgets/scam_card.dart';
 import '../../../core/widgets/scam_icon.dart';
 import '../../../core/widgets/section_header.dart';
 import '../../../core/widgets/operation_card.dart';
-import '../../../core/widgets/upgrade_card.dart';
 import '../../../core/widgets/offline_summary_dialog.dart';
+import '../../../core/widgets/event_decision_modal.dart';
 import '../../../services/providers/service_providers.dart';
 import '../../../services/heat_service.dart';
+import '../../operations/screens/operations_screen.dart';
+import '../../minigames/screens/suspicious_chat_screen.dart';
 
 class MainDashboardScreen extends ConsumerStatefulWidget {
   const MainDashboardScreen({super.key});
@@ -25,7 +27,6 @@ class MainDashboardScreen extends ConsumerStatefulWidget {
 
 class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
   int _selectedTabIndex = 0;
-  int _buyMultiplier = 1; // 1, 10, 100
   bool _offlineDialogShown = false;
 
   @override
@@ -121,17 +122,9 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
               _selectedTabIndex = 4;
             });
           },
-          buyMultiplier: _buyMultiplier,
         );
       case 1:
-        return _OperationsTab(
-          buyMultiplier: _buyMultiplier,
-          onMultiplierChanged: (m) {
-            setState(() {
-              _buyMultiplier = m;
-            });
-          },
-        );
+        return const OperationsScreen();
       case 2:
         return const _EventsTab();
       case 3:
@@ -149,9 +142,8 @@ class _MainDashboardScreenState extends ConsumerState<MainDashboardScreen> {
 // ==========================================
 class _HomeTab extends StatelessWidget {
   final VoidCallback onOpenSettings;
-  final int buyMultiplier;
 
-  const _HomeTab({required this.onOpenSettings, required this.buyMultiplier});
+  const _HomeTab({required this.onOpenSettings});
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +152,6 @@ class _HomeTab extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Static Header
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -210,23 +201,18 @@ class _HomeTab extends StatelessWidget {
           ),
           const SizedBox(height: 16),
 
-          // Granular Revenue Card
           const _RevenueOverviewCard(),
           const SizedBox(height: 12),
 
-          // Granular Trust & Heat Meters
           const _TrustHeatMeters(),
           const SizedBox(height: 12),
 
-          // Emergency Bribe Action
           const _EmergencyBribeBanner(),
 
-          // Main Tap Campaign Area
           const _CampaignTapCard(),
           const SizedBox(height: 16),
 
-          // Active Operations Quick List
-          _ActiveOperationsPreview(buyMultiplier: buyMultiplier),
+          const _ActiveOperationsPreview(),
         ],
       ),
     );
@@ -476,9 +462,7 @@ class _CampaignTapCard extends ConsumerWidget {
 }
 
 class _ActiveOperationsPreview extends ConsumerWidget {
-  final int buyMultiplier;
-
-  const _ActiveOperationsPreview({required this.buyMultiplier});
+  const _ActiveOperationsPreview();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -520,11 +504,11 @@ class _ActiveOperationsPreview extends ConsumerWidget {
                 operation: op,
                 currentCoins: coins,
                 currentTrust: trust,
-                buyMultiplier: buyMultiplier,
+                buyMultiplier: 1,
                 onUpgrade: () {
                   ref
                       .read(gameControllerProvider.notifier)
-                      .buyOperation(op.id, count: buyMultiplier);
+                      .buyOperation(op.id, count: 1);
                 },
               );
             },
@@ -535,146 +519,131 @@ class _ActiveOperationsPreview extends ConsumerWidget {
 }
 
 // ==========================================
-// TAB 1: OPERATIONS & UPGRADES
+// TAB 2: EVENTS & MINIGAME HUB
 // ==========================================
-class _OperationsTab extends ConsumerWidget {
-  final int buyMultiplier;
-  final ValueChanged<int> onMultiplierChanged;
+class _EventsTab extends ConsumerWidget {
+  const _EventsTab();
 
-  const _OperationsTab({
-    required this.buyMultiplier,
-    required this.onMultiplierChanged,
-  });
+  void _triggerEventModal(BuildContext context, WidgetRef ref) {
+    final controller = ref.read(gameControllerProvider.notifier);
+    final event = controller.triggerRandomEvent();
+    final coins = ref.read(playerStateProvider).coins;
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final coins = ref.watch(playerStateProvider.select((s) => s.coins));
-    final trust = ref.watch(playerStateProvider.select((s) => s.trust));
-    final operations = ref.watch(operationsProvider);
-    final upgrades = ref.watch(upgradesProvider);
-
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Digital Schemes',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
-              ),
-              Row(
-                children: [1, 10, 100].map((multiplier) {
-                  final isSelected = buyMultiplier == multiplier;
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 6.0),
-                    child: ChoiceChip(
-                      label: Text('${multiplier}x'),
-                      selected: isSelected,
-                      onSelected: (_) => onMultiplierChanged(multiplier),
-                      selectedColor: AppColors.sCoins,
-                      labelStyle: TextStyle(
-                        color: isSelected
-                            ? Colors.white
-                            : AppColors.textPrimary,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 12,
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-
-          if (upgrades.any((u) => !u.isPurchased)) ...[
-            const SectionHeader(
-              title: 'Available Upgrades',
-              subtitle: 'Multipliers and automation boosts',
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) => EventDecisionModal(
+        event: event,
+        currentCoins: coins,
+        onSelectChoice: (choice) {
+          final result = controller.applyEventChoice(event, choice);
+          Navigator.of(ctx).pop();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(result.feedbackMessage),
+              backgroundColor: result.isSuccess
+                  ? AppColors.sCoinsDark
+                  : AppColors.heatDanger,
             ),
-            ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: upgrades.where((u) => !u.isPurchased).length,
-              separatorBuilder: (context, index) => const SizedBox(height: 8),
-              itemBuilder: (context, idx) {
-                final up = upgrades.where((u) => !u.isPurchased).toList()[idx];
-                return UpgradeCard(
-                  upgrade: up,
-                  currentCoins: coins,
-                  onBuy: () {
-                    ref.read(gameControllerProvider.notifier).buyUpgrade(up.id);
-                  },
-                );
-              },
-            ),
-            const SizedBox(height: 20),
-          ],
-
-          const SectionHeader(
-            title: 'Operation Tiers',
-            subtitle: '16 Tiered Scam Syndicates',
-          ),
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: operations.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 10),
-            itemBuilder: (context, idx) {
-              final op = operations[idx];
-              return OperationCard(
-                operation: op,
-                currentCoins: coins,
-                currentTrust: trust,
-                buyMultiplier: buyMultiplier,
-                onUpgrade: () {
-                  ref
-                      .read(gameControllerProvider.notifier)
-                      .buyOperation(op.id, count: buyMultiplier);
-                },
-              );
-            },
-          ),
-        ],
+          );
+        },
       ),
     );
   }
-}
-
-// ==========================================
-// TAB 2: EVENTS
-// ==========================================
-class _EventsTab extends StatelessWidget {
-  const _EventsTab();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'Live Narrative Events',
+            'Live Narrative Incidents',
             style: Theme.of(
               context,
             ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 4),
           Text(
-            'Interactive corporate incidents and crisis management choices.',
+            'Crisis management decisions & anti-scam training mini-games.',
             style: Theme.of(
               context,
             ).textTheme.bodyMedium?.copyWith(color: AppColors.textSecondary),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
+
+          // Mini-Game Banner Card
           ScamCard(
-            padding: const EdgeInsets.all(20.0),
+            backgroundColor: AppColors.trustBg,
+            borderColor: AppColors.trust,
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(AppRadius.md),
+                      ),
+                      child: const ScamIcon(
+                        assetPath: AppAssets.coreChatSpeechBubble,
+                        size: 28,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'SUSPICIOUS CHAT TRAINING',
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w800,
+                                  color: AppColors.trustDark,
+                                ),
+                          ),
+                          Text(
+                            'Practice identifying social engineering red flags for bonus S-Coins & Trust.',
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(color: AppColors.textPrimary),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 14),
+                ScamButton(
+                  label: 'START CHAT TRAINING (+5K S-Coins)',
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const SuspiciousChatScreen(),
+                      ),
+                    );
+                  },
+                  variant: ScamButtonVariant.primary,
+                  isFullWidth: true,
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+
+          // Random Crisis Simulation Trigger Card
+          const SectionHeader(
+            title: 'Corporate Crisis Drill',
+            subtitle: 'Trigger a random narrative decision event',
+          ),
+          ScamCard(
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
                 const ScamIcon(
@@ -683,18 +652,26 @@ class _EventsTab extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  'No Active Crises',
+                  'Simulate Random Crisis Event',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w800,
                   ),
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  'Your syndicates are currently flying under the radar. Random events trigger periodically as Heat and Revenue increase.',
+                  'Face sudden police raids, whistleblower leaks, or viral trend spikes and make your strategic corporate decision.',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: AppColors.textSecondary,
                   ),
+                ),
+                const SizedBox(height: 16),
+                ScamButton(
+                  label: 'TRIGGER CRISIS EVENT',
+                  onPressed: () => _triggerEventModal(context, ref),
+                  variant: ScamButtonVariant.secondary,
+                  isFullWidth: true,
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                 ),
               ],
             ),

@@ -25,12 +25,13 @@ void main() {
     await tester.tap(find.text('Schemes'));
     await tester.pumpAndSettle();
     expect(find.text('Digital Schemes'), findsOneWidget);
-    expect(find.text('16 Tiered Scam Syndicates'), findsOneWidget);
+    expect(find.text('All Tiers'), findsOneWidget);
 
     // Tap Events Tab
     await tester.tap(find.text('Events'));
     await tester.pumpAndSettle();
-    expect(find.text('Live Narrative Events'), findsOneWidget);
+    expect(find.text('Live Narrative Incidents'), findsOneWidget);
+    expect(find.text('SUSPICIOUS CHAT TRAINING'), findsOneWidget);
 
     // Tap Prestige Tab
     await tester.tap(find.text('Prestige'));

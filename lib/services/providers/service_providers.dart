@@ -10,6 +10,8 @@ import '../game_clock_service.dart';
 import '../heat_service.dart';
 import '../trust_service.dart';
 import '../offline_income_service.dart';
+import '../event_service.dart';
+import '../../features/minigames/services/chat_minigame_service.dart';
 import '../../game/game_controller.dart';
 
 /// Provider for pure [EconomyService].
@@ -33,6 +35,16 @@ final offlineIncomeServiceProvider = Provider<OfflineIncomeService>((ref) {
   return OfflineIncomeService(economyService: economy);
 });
 
+/// Provider for [EventService].
+final eventServiceProvider = Provider<EventService>((ref) {
+  return const EventService();
+});
+
+/// Provider for [ChatMinigameService].
+final chatMinigameServiceProvider = Provider<ChatMinigameService>((ref) {
+  return ChatMinigameService();
+});
+
 /// Provider for singleton [GameClockService].
 final gameClockServiceProvider = Provider<GameClockService>((ref) {
   final clock = GameClockService();
@@ -50,6 +62,7 @@ final gameControllerProvider =
       final heatService = ref.watch(heatServiceProvider);
       final trustService = ref.watch(trustServiceProvider);
       final offlineIncomeService = ref.watch(offlineIncomeServiceProvider);
+      final eventService = ref.watch(eventServiceProvider);
       final gameClock = ref.watch(gameClockServiceProvider);
 
       return GameController(
@@ -58,6 +71,7 @@ final gameControllerProvider =
         heatService: heatService,
         trustService: trustService,
         offlineIncomeService: offlineIncomeService,
+        eventService: eventService,
         gameClock: gameClock,
       );
     });

@@ -3,12 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/player_save.dart';
 import '../models/operation.dart';
 import '../models/upgrade.dart';
+import '../models/game_event.dart';
+import '../models/event_choice.dart';
 import '../data/repositories/save_repository.dart';
 import '../data/seeds/game_seeds.dart';
 import '../services/economy_service.dart';
 import '../services/heat_service.dart';
 import '../services/trust_service.dart';
 import '../services/offline_income_service.dart';
+import '../services/event_service.dart';
 import '../services/game_clock_service.dart';
 
 /// Central Game State Controller managing active progression, tick events, and persistence.
@@ -18,11 +21,15 @@ class GameController extends StateNotifier<PlayerSave> {
   final HeatService _heatService;
   final TrustService _trustService;
   final OfflineIncomeService _offlineIncomeService;
+  final EventService _eventService;
   final GameClockService _gameClock;
   Timer? _autoSaveTimer;
 
   OfflineEarningsResult? _pendingOfflineEarnings;
   OfflineEarningsResult? get pendingOfflineEarnings => _pendingOfflineEarnings;
+
+  GameEvent? _activeEvent;
+  GameEvent? get activeEvent => _activeEvent;
 
   GameController({
     required SaveRepository saveRepository,
@@ -30,6 +37,7 @@ class GameController extends StateNotifier<PlayerSave> {
     required HeatService heatService,
     required TrustService trustService,
     required OfflineIncomeService offlineIncomeService,
+    required EventService eventService,
     required GameClockService gameClock,
     PlayerSave? initialSave,
   }) : _saveRepository = saveRepository,
@@ -37,6 +45,7 @@ class GameController extends StateNotifier<PlayerSave> {
        _heatService = heatService,
        _trustService = trustService,
        _offlineIncomeService = offlineIncomeService,
+       _eventService = eventService,
        _gameClock = gameClock,
        super(
          initialSave ??
@@ -218,6 +227,66 @@ class GameController extends StateNotifier<PlayerSave> {
 
     state = state.copyWith(playerState: updatedPlayerState);
     return true;
+  }
+
+  /// Manually triggers or sets an active random narrative event.
+  GameEvent triggerRandomEvent() {
+    final event = _eventService.getRandomEvent();
+    _activeEvent = event;
+    return event;
+  }
+
+  /// Resolves an event choice and applies economic/heat/trust consequences.
+  EventResolutionResult applyEventChoice(GameEvent event, EventChoice choice) {
+    final result = _eventService.resolveChoice(event: event, choice: choice);
+
+    final updatedCoins = (state.playerState.coins + result.coinsDelta).clamp(
+      0.0,
+      double.infinity,
+    );
+    final updatedHeat = _heatService.clampHeat(
+      state.playerState.heat + result.heatDelta,
+    );
+    final updatedTrust = _trustService.clampTrust(
+      state.playerState.trust + result.trustDelta,
+    );
+
+    final updatedPlayerState = state.playerState.copyWith(
+      coins: updatedCoins,
+      heat: updatedHeat,
+      trust: updatedTrust,
+      lastActiveTimestamp: DateTime.now(),
+    );
+
+    _activeEvent = null;
+    state = state.copyWith(playerState: updatedPlayerState);
+    return result;
+  }
+
+  /// Applies minigame rewards from educational Suspicious Chat completion.
+  void applyMinigameReward({
+    required double coins,
+    required double trust,
+    required double heatDelta,
+  }) {
+    final updatedCoins = state.playerState.coins + coins;
+    final updatedTrust = _trustService.clampTrust(
+      state.playerState.trust + trust,
+    );
+    final updatedHeat = _heatService.clampHeat(
+      state.playerState.heat + heatDelta,
+    );
+
+    final updatedPlayerState = state.playerState.copyWith(
+      coins: updatedCoins,
+      lifetimeRevenue: state.playerState.lifetimeRevenue + coins,
+      trust: updatedTrust,
+      heat: updatedHeat,
+      lastActiveTimestamp: DateTime.now(),
+    );
+
+    state = state.copyWith(playerState: updatedPlayerState);
+    saveGame();
   }
 
   /// Invoked on every logical game clock tick.
